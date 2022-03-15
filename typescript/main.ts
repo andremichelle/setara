@@ -2,6 +2,7 @@ import {Boot, newAudioContext, preloadImagesOfCssFile} from "./lib/boot.js"
 import {LimiterWorklet} from "./audio/limiter/worklet.js"
 import {MeterWorklet} from "./audio/meter/worklet.js"
 import {MetronomeWorklet} from "./audio/metronome/worklet.js"
+import {Player} from "./setara/player.js"
 
 const showProgress = (() => {
     const progress: SVGSVGElement = document.querySelector("svg.preloader")
@@ -14,7 +15,6 @@ const showProgress = (() => {
     console.debug("booting...")
 
     // --- BOOT STARTS ---
-
     const boot = new Boot()
     boot.addObserver(boot => showProgress(boot.normalizedPercentage()))
     boot.registerProcess(preloadImagesOfCssFile("./bin/main.css"))
@@ -23,12 +23,28 @@ const showProgress = (() => {
     boot.registerProcess(MeterWorklet.loadModule(context))
     boot.registerProcess(MetronomeWorklet.loadModule(context))
     await boot.waitForCompletion()
-
     // --- BOOT ENDS ---
+
+    const orientations = ["top", "left", "right", "bottom"]
+    const mainElement = document.querySelector("main")
+    const playerTemplate = mainElement.querySelector("div.player-wrapper.template")
+    playerTemplate.remove()
+    const players: Player[] = orientations.map(orientation => {
+        playerTemplate.classList.remove("template")
+        const gridAreaElement = playerTemplate.cloneNode(true) as HTMLElement
+        gridAreaElement.classList.add(orientation)
+        mainElement.appendChild(gridAreaElement)
+        return new Player(gridAreaElement.querySelector("div.player"))
+    })
 
     // prevent dragging entire document on mobile
     document.addEventListener('touchmove', (event: TouchEvent) => event.preventDefault(), {passive: false})
-    document.querySelectorAll("body main").forEach(element => element.classList.remove("invisible"))
-    document.querySelectorAll("body svg.preloader").forEach(element => element.remove())
+    const resize = () => document.body.style.height = `${window.innerHeight}px`
+    window.addEventListener("resize", resize)
+    resize()
+    requestAnimationFrame(() => {
+        document.querySelectorAll("body svg.preloader").forEach(element => element.remove())
+        document.querySelectorAll("body main").forEach(element => element.classList.remove("invisible"))
+    })
     console.debug("boot complete.")
 })()

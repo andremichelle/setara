@@ -1,10 +1,2 @@
-# typescript / sass
-template repository for my typescript projects
-
-Make sure to have sass installed and run in the console:
-
-    sass sass/main.sass:bin/main.css --watch
-
-Make sure to have typescript installed and run in the console:
-
-    tsc -p ./typescript/tsconfig.json --watch
+# SETARA
+A multi-player, pattern matching card game based on [set](https://en.wikipedia.org/wiki/Set_(card_game)).

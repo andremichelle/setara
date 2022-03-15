@@ -1,0 +1,69 @@
+@import common
+@import animations
+
+main div.player-wrapper
+  display: flex
+  align-items: center
+  justify-content: center
+
+  &.top
+    --rotation: 180deg
+    grid-area: 1 / 2
+
+  &.left
+    --rotation: 90deg
+    grid-area: 2 / 1
+
+  &.right
+    --rotation: -90deg
+    grid-area: 2 / 3
+
+  &.bottom
+    --rotation: 0deg
+    grid-area: 3 / 2
+
+  div.player
+    --offset: 0.0
+    flex: 1
+    display: flex
+    align-items: center
+    justify-content: center
+    //noinspection CssInvalidFunction
+    transform: rotate(var(--rotation)) translate(0, calc(10vmin * var(--offset)))
+    transition: transform 0.3s ease-in
+
+    &.hide
+      --offset: 1.0
+
+    > button
+      margin: 0 4vmin
+      border: none
+      outline: none
+      appearance: none
+      padding: 1.5vmin 3vmin
+      border-radius: calc(var(--size) * 4)
+      color: lighten($color3, 20)
+      background: linear-gradient(to bottom, darken($color2, 1), darken($color2, 20))
+      box-shadow: 0 1px 1px 0 rgba(white, 0.4) inset, 0 -1px 1px 0 rgba(black, 0.2) inset
+      font-family: inherit
+      font-size: 2.5vmin
+      @include shadow(darken($color2, 10), 7, 4)
+
+    > div.display
+      display: flex
+      align-items: center
+      justify-content: center
+      width: 13vmin
+      height: 4vmin
+      border-radius: 4vmin
+      box-shadow: 0 -1px 1px 0 rgba(white, 0.2) inset, 0 1px 1px 0 rgba(black, 0.1) inset
+      background: linear-gradient(to bottom, darken($color2, 10), darken($color2, 1))
+
+      &.score span
+        color: rgba(white, 0.9)
+        font-size: 2.5vmin
+        @include shadow($color1, 4, 4)
+
+    &.waiting button
+      cursor: pointer
+      animation: wobbling 0.3s infinite alternate ease-in-out

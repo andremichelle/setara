@@ -5,6 +5,7 @@ import {Observable, ObservableImpl, Observer, Terminable} from "./common.js"
 export const preloadImagesOfCssFile = async (pathToCss: string): Promise<void> => {
     const href = location.href
     const base = href.substring(0, href.lastIndexOf("/")) + "/bin/"
+    const formats = ["jpg", "png", "gif"]
     console.debug(`preloadImagesOfCssFile... base: ${base}`)
     const urls: URL[] = await fetch(pathToCss)
         .then(x => x.text()).then(x => {
@@ -15,6 +16,7 @@ export const preloadImagesOfCssFile = async (pathToCss: string): Promise<void> =
             }
             return matches
                 .map(path => path.replace(/url\(/, "").slice(1, -1))
+                .filter(path => formats.includes(path.substring(path.lastIndexOf(".") + 1)))
                 .map(path => new URL(path, base))
         })
     const promises = urls.map(url => new Promise<void>((resolve, reject) => {
