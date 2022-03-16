@@ -32,7 +32,7 @@ main
     background: url("../background-pattern.jpeg")
     mix-blend-mode: screen
     pointer-events: none
-  //animation: bubbles infinite 240s linear
+    //animation: bubbles infinite 240s linear
 
   > .game
     top: 0
@@ -87,6 +87,7 @@ main
         perspective: 800px
         gap: var(--card-gap)
         pointer-events: none
+        transform-origin: center center
 
         @media (orientation: portrait)
           transform: rotate(90deg)

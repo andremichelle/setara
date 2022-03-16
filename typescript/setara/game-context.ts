@@ -41,6 +41,13 @@ class CountDown {
     }
 }
 
+class GameConstants {
+    static MAX_SCORE = 1000
+    static MIN_SCORE = 100
+    static SCORE_DECAY = 100
+    static SCORE_DECAY_INTERVAL = 10000
+}
+
 abstract class GameState {
     protected constructor(protected readonly context: GameContext) {
     }
@@ -58,6 +65,7 @@ class GameWaitForPlayersState extends GameState {
 
         context.forEachPlayer(player => {
             player.setState(PlayerState.WaitingToJoin)
+            player.setAvailablePoints(GameConstants.MAX_SCORE)
             player.setActionName("play")
         })
 
@@ -117,26 +125,50 @@ class GameStartState extends GameState {
 }
 
 class GameSearchState extends GameState {
+    private points: number = GameConstants.MAX_SCORE
+    private interval: number = -1
+
     constructor(context: GameContext,
                 private readonly gameRound: GameRound,
                 private readonly players: Player[]) {
         super(context)
 
-        context.forEachPlayer(player => player.setCardsLeft(gameRound.available()))
+        this.interval = setInterval(this.decreasePoints, GameConstants.SCORE_DECAY_INTERVAL)
+
+        context.forEachPlayer(player => {
+            player.setCardsLeft(gameRound.available())
+            player.setAvailablePoints(this.points)
+        })
     }
 
     async executePlayerAction(player: Player): Promise<void> {
-        this.context.switchState(new GameSelectionState(this.context, this.gameRound, this.players, player))
+        if (-1 !== this.interval) {
+            clearInterval(this.interval)
+            this.interval = -1
+        }
+        this.context.switchState(new GameSelectionState(this.context, this.gameRound, this.players, player, this.points))
         return Promise.resolve()
     }
 
     executeMainAction(): void {
         // Nothing to do
     }
+
+    private decreasePoints = (): void => {
+        this.context.play(Sound.PointDecay)
+        if (this.points > GameConstants.MIN_SCORE) {
+            this.points -= GameConstants.SCORE_DECAY
+            this.context.forEachPlayer(player => player.setAvailablePoints(this.points))
+        } else if (-1 !== this.interval) {
+            clearInterval(this.interval)
+            this.interval = -1
+            this.gameRound.showHint()
+        }
+    }
 }
 
 class GameSelectionState extends GameState {
-    constructor(context: GameContext, gameRound: GameRound, players: Player[], player: Player) {
+    constructor(context: GameContext, gameRound: GameRound, players: Player[], player: Player, possibleScore: number) {
         super(context)
 
         this.context.play(Sound.Select)
@@ -153,7 +185,7 @@ class GameSelectionState extends GameState {
                 },
                 () => {
                     gameRound.cancelTurn()
-                    player.addScore(-50)
+                    player.addScore(-possibleScore)
                 }, 5)
             countDown.start()
 
@@ -161,9 +193,9 @@ class GameSelectionState extends GameState {
                 countDown.cancel()
                 player.setCountDown(0.0)
                 if (isSet) {
-                    player.addScore(100)
+                    player.addScore(possibleScore)
                 } else {
-                    player.addScore(-50)
+                    player.addScore(-possibleScore)
                 }
             })
             player.setState(PlayerState.Playing)

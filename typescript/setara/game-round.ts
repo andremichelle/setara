@@ -75,12 +75,26 @@ export class GameRound {
         return this.deck.available()
     }
 
+    showHint() {
+        const sets = this.rules.findSets(Array.from(this.map.values()))
+        if (sets.length === 0) {
+            console.warn("No set available?")
+            return
+        }
+        const cards = sets[0]
+        if (cards.length === 0) {
+            console.warn("Set has no cards?")
+            return
+        }
+        this.findElement(cards[0]).classList.add("hint")
+    }
+
     terminate() {
         console.assert(this.turn.isEmpty())
         this.rows.splice(0, this.rows.length)
         this.selection.splice(0, this.rows.length)
         this.map.clear()
-        while(this.cardsElement.lastChild) {
+        while (this.cardsElement.lastChild) {
             this.cardsElement.lastChild.remove()
         }
     }

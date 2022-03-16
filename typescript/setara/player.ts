@@ -9,6 +9,7 @@ export class Player {
     private readonly scoreLabel: HTMLElement
     private readonly countdownBar: HTMLElement
     private readonly cardsLeftLabel: HTMLElement
+    private readonly cardsAvailablePoints: HTMLElement
     private readonly crown: HTMLElement
 
     private score: number = 0 | 0
@@ -25,6 +26,7 @@ export class Player {
         this.scoreLabel = element.querySelector("div.display.score span")
         this.countdownBar = element.querySelector("div.display.countdown div span")
         this.cardsLeftLabel = element.querySelector("[data-info='cards-left']")
+        this.cardsAvailablePoints = element.querySelector("[data-info='available-points']")
         this.crown = this.element.querySelector("div.crown")
         this.setCountDown(0.0)
         this.setCardsLeft(0)
@@ -68,6 +70,13 @@ export class Player {
 
     setCardsLeft(count: number): void {
         this.cardsLeftLabel.textContent = `${count}`
+    }
+
+    setAvailablePoints(points: number): void {
+        this.cardsAvailablePoints.textContent = `${points}`
+        this.cardsAvailablePoints.classList.add("flash")
+        this.cardsAvailablePoints.addEventListener("animationend", () =>
+            this.cardsAvailablePoints.classList.remove("flash"), {once: true})
     }
 
     setActionName(text: string): void {

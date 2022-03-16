@@ -1,5 +1,17 @@
 export enum Sound {
-    Appearance, Fly, Join, Docked, Click, Select, Countdown, Success, Failure, Cancel, Reject, GameOver
+    Appearance,
+    Fly,
+    Join,
+    Docked,
+    Click,
+    Select,
+    PointDecay,
+    Countdown,
+    Success,
+    Failure,
+    Cancel,
+    Reject,
+    GameOver
 }
 
 export class SoundManager {
@@ -15,6 +27,7 @@ export class SoundManager {
         await this.register(Sound.Docked, "samples/docked.wav")
         await this.register(Sound.Click, "samples/click.wav")
         await this.register(Sound.Select, "samples/select.wav")
+        await this.register(Sound.PointDecay, "samples/points-decay.wav")
         await this.register(Sound.Countdown, "samples/countdown.wav")
         await this.register(Sound.Success, "samples/success.wav")
         await this.register(Sound.Failure, "samples/failure.wav")
