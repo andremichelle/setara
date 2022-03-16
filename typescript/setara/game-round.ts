@@ -197,7 +197,9 @@ export class GameRound {
             await Waiting.forFrames(this.random.nextInt(4, 16))
         }
         await Promise.all(waiting)
+        this.soundManager.play(Sound.Fly)
         placeholders.forEach(placeholder => placeholder.remove())
+        await Waiting.forFrames(30)
         return Promise.resolve()
     }
 

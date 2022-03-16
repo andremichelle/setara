@@ -46,7 +46,7 @@ const showProgress = (() => {
         }
     }
 
-    new GameContext(soundManager, new Mulberry32(), playerFactory)
+    window["doNotGc"] = new GameContext(soundManager, new Mulberry32(), playerFactory)
 
     // prevent dragging entire document on mobile
     document.addEventListener('touchmove', (event: TouchEvent) => event.preventDefault(), {passive: false})
