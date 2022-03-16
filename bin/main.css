@@ -1,0 +1,602 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  font-family: "Super Mario 256", sans-serif;
+  font-size: 1vmin;
+  -webkit-overflow-scrolling: touch;
+  touch-action: manipulation;
+  color: white;
+}
+
+html {
+  background: #2b1e3d;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100vw;
+  min-height: 100vh;
+  /* mobile viewport bug fix */
+  min-width: -webkit-fill-available;
+  min-height: -webkit-fill-available;
+}
+
+* {
+  cursor: default;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.invisible {
+  display: none !important;
+}
+
+svg.preloader {
+  --percentage: 0.0;
+  --radius: 7;
+  width: 64px;
+  height: 64px;
+}
+svg.preloader.error circle {
+  stroke: #C30;
+}
+svg.preloader > circle:nth-of-type(1) {
+  stroke: #7958AC;
+}
+svg.preloader > circle:nth-of-type(2) {
+  stroke: #49E3DA;
+}
+svg.preloader > circle.progress {
+  stroke-dasharray: calc(var(--radius) * 6.2831853);
+  stroke-dashoffset: calc(var(--radius) * 6.2831853 * (1 - var(--percentage)));
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  font-family: "Super Mario 256", sans-serif;
+  font-size: 1vmin;
+  -webkit-overflow-scrolling: touch;
+  touch-action: manipulation;
+  color: white;
+}
+
+html {
+  background: #2b1e3d;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100vw;
+  min-height: 100vh;
+  /* mobile viewport bug fix */
+  min-width: -webkit-fill-available;
+  min-height: -webkit-fill-available;
+}
+
+* {
+  cursor: default;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.invisible {
+  display: none !important;
+}
+
+svg.preloader {
+  --percentage: 0.0;
+  --radius: 7;
+  width: 64px;
+  height: 64px;
+}
+svg.preloader.error circle {
+  stroke: #C30;
+}
+svg.preloader > circle:nth-of-type(1) {
+  stroke: #7958AC;
+}
+svg.preloader > circle:nth-of-type(2) {
+  stroke: #49E3DA;
+}
+svg.preloader > circle.progress {
+  stroke-dasharray: calc(var(--radius) * 6.2831853);
+  stroke-dashoffset: calc(var(--radius) * 6.2831853 * (1 - var(--percentage)));
+}
+
+@keyframes bubbles {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: 0 100%;
+  }
+}
+@keyframes countdown-flash {
+  0% {
+    filter: brightness(200%) blur(16px);
+  }
+  100% {
+    filter: brightness(100%);
+  }
+}
+@keyframes point-decay-flash {
+  0% {
+    filter: brightness(200%) blur(4px);
+  }
+  100% {
+    filter: brightness(100%);
+  }
+}
+@keyframes wobbling {
+  0% {
+    transform: rotate(-1deg);
+  }
+  50% {
+    transform: rotate(0deg) scale(1.08);
+  }
+  100% {
+    transform: rotate(1deg);
+  }
+}
+@keyframes appear {
+  0% {
+    filter: brightness(0.5) blur(2px);
+    transform: translate3d(0, 0, 666px) rotateX(180deg) scale(1);
+  }
+  88% {
+    filter: brightness(1) blur(0);
+    transform: translate3d(0, 0, 0) rotateX(0deg) scale(1);
+  }
+  97% {
+    filter: brightness(2) blur(0);
+    transform: translate3d(0, 0, 0) rotateX(0deg) scale(1.1);
+  }
+  100% {
+    filter: brightness(1) blur(0);
+    transform: translate3d(0, 0, 0) rotateX(0deg) scale(1);
+  }
+}
+@keyframes selected {
+  0% {
+    transform: rotate(-1deg);
+  }
+  50% {
+    transform: rotate(0deg) scale(1.08);
+  }
+  100% {
+    transform: rotate(1deg);
+  }
+}
+@keyframes invalid-selection {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+  10% {
+    transform: translate(-1px, -2px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(-3px, 0px) rotate(1deg);
+  }
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(-3px, 1px) rotate(0deg);
+  }
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-1px, -1px) rotate(1deg);
+  }
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
+@keyframes disappear {
+  0% {
+    opacity: 1;
+    filter: brightness(1) blur(0);
+    transform: translate3d(0, 0, 0) rotateX(0deg);
+  }
+  100% {
+    opacity: 0;
+    filter: brightness(2) blur(4px);
+    transform: translate3d(0, 0, 666px) rotateX(180deg);
+  }
+}
+main div.player-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+main div.player-wrapper.top {
+  --rotation: 180deg;
+  grid-area: 1/2;
+}
+main div.player-wrapper.left {
+  --rotation: 90deg;
+  grid-area: 2/1;
+}
+main div.player-wrapper.right {
+  --rotation: -90deg;
+  grid-area: 2/3;
+}
+main div.player-wrapper.bottom {
+  --rotation: 0deg;
+  grid-area: 3/2;
+}
+main div.player-wrapper div.player {
+  --offset: 0.0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(var(--rotation)) translate(0, calc(10vmin * var(--offset)));
+  transition: transform 0.3s ease-in;
+  position: relative;
+  opacity: 1;
+}
+main div.player-wrapper div.player.hide {
+  --offset: 1.0;
+}
+main div.player-wrapper div.player.hide > div.points {
+  display: none;
+}
+main div.player-wrapper div.player > button {
+  margin: 0 6vmin;
+  border: none;
+  outline: none;
+  appearance: none;
+  padding: 1.5vmin 3vmin;
+  border-radius: 4vmin;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.1em;
+  background: linear-gradient(to bottom, #f784ab, #f1296c);
+  box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset, 0 -1px 1px 0 rgba(0, 0, 0, 0.2) inset, 0 0.75vmin 0.5vmin 0 rgba(0, 0, 0, 0.2);
+  font-family: inherit;
+  font-size: 3vmin;
+  pointer-events: all;
+  min-width: 16vmin;
+  text-shadow: 0 0.125vmin 0 #f24680, 0 0.25vmin 0 #f13373, 0 0.375vmin 0 #f02066, 0 0.5vmin 0 #eb105a, 0 0.625vmin 0 #d80f53, 0 0.75vmin 0 #c50d4b, 0 0.875vmin 0 #b20c44;
+}
+main div.player-wrapper div.player > div.display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 13vmin;
+  height: 4vmin;
+  border-radius: 4vmin;
+  box-shadow: 0 -1px 1px 0 rgba(255, 255, 255, 0.6) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.2) inset;
+  background: linear-gradient(to bottom, #f4598d, #f676a1);
+  position: relative;
+}
+main div.player-wrapper div.player > div.display.score span {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 2.5vmin;
+  letter-spacing: 0.1vmin;
+  text-shadow: 0 0.125vmin 0 #f5719e, 0 0.25vmin 0 #f4598d, 0 0.375vmin 0 #f2417d, 0 0.5vmin 0 #f1296c;
+}
+main div.player-wrapper div.player > div.display.score span.negative {
+  color: rgba(255, 85, 0, 0.9);
+  text-shadow: 0 0.125vmin 0 #d53d00, 0 0.25vmin 0 #bb3500, 0 0.375vmin 0 #a22e00, 0 0.5vmin 0 #882700;
+}
+main div.player-wrapper div.player > div.display.countdown div {
+  top: 0.6vmin;
+  left: 0.5vmin;
+  right: 0.5vmin;
+  bottom: 0.6vmin;
+  border-radius: 8vmin;
+  position: absolute;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #f4598d, #ef125c);
+  box-shadow: 0 0 1vmin 0 rgba(255, 255, 255, 0.4) inset, 0 0.1vmin 0.2vmin 0 rgba(255, 255, 255, 0.6) inset;
+}
+main div.player-wrapper div.player > div.display.countdown div span {
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), #f9a1be);
+  box-shadow: 0.2vmin 0 0.4vmin 0 rgba(0, 0, 0, 0.1);
+  position: absolute;
+}
+main div.player-wrapper div.player > div.display.countdown div span.flash {
+  animation: countdown-flash 200ms ease-out;
+}
+main div.player-wrapper div.player > div.points {
+  pointer-events: none;
+  top: -5vmin;
+  position: absolute;
+  font-size: 2vmin;
+  white-space: nowrap;
+  opacity: 0.5;
+  color: white;
+  text-shadow: 0 -2px 1px black, 0 2px 1px black, 2px 0 1px black, -2px 0 1px black;
+}
+main div.player-wrapper div.player > div.points > span.flash {
+  animation: point-decay-flash 0.3s ease-out;
+}
+main div.player-wrapper div.player > div.crown {
+  pointer-events: none;
+  top: -10vmin;
+  position: absolute;
+  filter: url(#glow);
+  display: none;
+}
+main div.player-wrapper div.player > div.crown > svg {
+  fill: #F5E9BB;
+  width: 15.6vmin;
+  height: 10vmin;
+}
+main div.player-wrapper div.player.waiting button {
+  cursor: pointer;
+  animation: wobbling 0.3s infinite alternate ease-in-out;
+}
+main div.player-wrapper div.player.requesting button {
+  cursor: pointer;
+  color: #F789AE;
+  background: linear-gradient(to top, #f784ab, #f1296c);
+  box-shadow: 0 -1px 2px 0 rgba(255, 255, 255, 0.6) inset;
+  text-shadow: 0 0.125vmin 0 #f23d7a, 0 0.25vmin 0 #f02066, 0 0.375vmin 0 #e20f56, 0 0.5vmin 0 #c50d4b, 0 0.625vmin 0 #a90b40;
+}
+main div.player-wrapper div.player.playing button {
+  cursor: pointer;
+}
+main div.player-wrapper div.player.selecting button {
+  opacity: 0.8;
+  color: #F789AE;
+  background: linear-gradient(to top, #f784ab, #f1296c);
+  box-shadow: 0 -1px 2px 0 rgba(255, 255, 255, 0.6) inset;
+  text-shadow: 0 0.125vmin 0 #f23d7a, 0 0.25vmin 0 #f02066, 0 0.375vmin 0 #e20f56, 0 0.5vmin 0 #c50d4b, 0 0.625vmin 0 #a90b40;
+}
+main div.player-wrapper div.player.winner div.crown {
+  display: flex !important;
+}
+main div.player-wrapper div.player.winner div.points {
+  display: none;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  font-family: "Super Mario 256", sans-serif;
+  font-size: 1vmin;
+  -webkit-overflow-scrolling: touch;
+  touch-action: manipulation;
+  color: white;
+}
+
+html {
+  background: #2b1e3d;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100vw;
+  min-height: 100vh;
+  /* mobile viewport bug fix */
+  min-width: -webkit-fill-available;
+  min-height: -webkit-fill-available;
+}
+
+* {
+  cursor: default;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.invisible {
+  display: none !important;
+}
+
+svg.preloader {
+  --percentage: 0.0;
+  --radius: 7;
+  width: 64px;
+  height: 64px;
+}
+svg.preloader.error circle {
+  stroke: #C30;
+}
+svg.preloader > circle:nth-of-type(1) {
+  stroke: #7958AC;
+}
+svg.preloader > circle:nth-of-type(2) {
+  stroke: #49E3DA;
+}
+svg.preloader > circle.progress {
+  stroke-dasharray: calc(var(--radius) * 6.2831853);
+  stroke-dashoffset: calc(var(--radius) * 6.2831853 * (1 - var(--percentage)));
+}
+
+svg.card {
+  border-radius: 1vmin;
+  background: linear-gradient(to top, #fffffe, white);
+  border: 0.2vmin rgba(0, 0, 0, 0.6) solid;
+  visibility: hidden;
+  height: var(--card-size);
+  pointer-events: bounding-box;
+}
+svg.card.appearing {
+  visibility: visible;
+  animation: appear 0.5s ease-out;
+}
+svg.card.visible {
+  visibility: visible;
+}
+svg.card.hint {
+  outline: 0.4vmin #49E3DA solid;
+}
+svg.card.selected {
+  animation: selected 0.3s infinite alternate ease-in-out;
+}
+svg.card.invalid {
+  animation: invalid-selection 0.3s both ease-in-out;
+  box-shadow: 0 0 8px 0 rgba(255, 0, 0, 0.2) inset, 0 0 1px 0 rgba(255, 0, 0, 0.2);
+}
+svg.card.solved {
+  animation: disappear 1.5s linear;
+}
+svg.card * {
+  pointer-events: none;
+}
+
+@font-face {
+  font-family: "Super Mario 256";
+  src: url("../fonts/sm.ttf");
+}
+:root {
+  --card-size: 0vmin;
+  --card-gap: 1vmin;
+}
+
+html, body {
+  pointer-events: none;
+}
+
+main {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: #F789AE;
+  pointer-events: none;
+}
+main .bubbles {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  background: url("../background-pattern.jpeg");
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+main > .game {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  display: grid;
+  grid-template: 10vmin 1fr 10vmin/10vmin 1fr 10vmin;
+  pointer-events: none;
+}
+main > .game > .play-field {
+  grid-area: 2/2;
+  border-radius: 3vmin;
+  background-color: #6f50a0;
+  box-shadow: 0 0 3vmin 0 rgba(0, 0, 0, 0.4) inset, 0 0 1vmin 0 rgba(0, 0, 0, 0.3) inset, 0 0 1.5vmin 0 rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+main > .game > .play-field > button.action-button {
+  width: 20vmin;
+  height: 20vmin;
+  border-radius: 10vmin;
+  border: none;
+  outline: none;
+  appearance: none;
+  font-family: inherit;
+  font-size: 4vmin;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.1em;
+  background-color: rgba(247, 137, 174, 0.8);
+  box-shadow: 0 0 2vmin 0.5vmin rgba(255, 255, 255, 0.6) inset, 0 0 3vmin 0 rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  text-shadow: 0 0.125vmin 0 #f9a1be, 0 0.25vmin 0 #f789ae, 0 0.375vmin 0 #f5719e, 0 0.5vmin 0 #f4598d, 0 0.625vmin 0 #f2417d;
+}
+main > .game > .play-field > button.action-button:empty {
+  display: none;
+}
+main > .game > .play-field > div.cards {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  perspective: 800px;
+  gap: var(--card-gap);
+  pointer-events: none;
+  transform-style: preserve-3d;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+@media (orientation: portrait) {
+  main > .game > .play-field > div.cards {
+    transform: rotate(90deg);
+  }
+}
+main > .game > .play-field > div.cards > div.row {
+  display: flex;
+  flex-direction: row;
+  gap: var(--card-gap);
+  transform-style: preserve-3d;
+  pointer-events: none;
+  position: relative;
+}
+
+/*# sourceMappingURL=main.css.map */
