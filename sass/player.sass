@@ -30,10 +30,12 @@ main div.player-wrapper
     justify-content: center
     //noinspection CssInvalidFunction
     transform: rotate(var(--rotation)) translate(0, calc(10vmin * var(--offset)))
-    transition: transform 0.3s ease-in
+    transition: transform 0.3s ease-in, opacity 0.3s ease-out
     position: relative
+    opacity: 1.0
 
     &.hide
+      opacity: 0.0
       --offset: 1.0
 
     > button
@@ -83,12 +85,21 @@ main div.player-wrapper
           background: linear-gradient(to bottom, rgba(lighten($color2, 30), 0.9), lighten($color2, 5))
           position: absolute
 
+    > div.points
+      pointer-events: none
+      top: -5vmin
+      position: absolute
+      font-size: 2vmin
+      white-space: nowrap
+      opacity: 0.5
+      color: white
+      text-shadow: 0 -2px 1px black, 0 2px 1px black, 2px 0 1px black, -2px 0 1px black
+
     > div.crown
       pointer-events: none
       top: -10vmin
-      transform: translate(0, 0)
-      filter: url(#glow)
       position: absolute
+      filter: url(#glow)
 
       > svg
         fill: $color3
