@@ -36,7 +36,7 @@ main div.player-wrapper
       --offset: 1.0
 
     > button
-      margin: 0 4vmin
+      margin: 0 6vmin
       border: none
       outline: none
       appearance: none
@@ -46,7 +46,7 @@ main div.player-wrapper
       background: linear-gradient(to bottom, darken($color2, 1), darken($color2, 20))
       box-shadow: 0 1px 1px 0 rgba(white, 0.4) inset, 0 -1px 1px 0 rgba(black, 0.2) inset
       font-family: inherit
-      font-size: 2.5vmin
+      font-size: 3vmin
       @include shadow(darken($color2, 10), 7, 4)
 
     > div.display
@@ -56,13 +56,30 @@ main div.player-wrapper
       width: 13vmin
       height: 4vmin
       border-radius: 4vmin
-      box-shadow: 0 -1px 1px 0 rgba(white, 0.2) inset, 0 1px 1px 0 rgba(black, 0.1) inset
-      background: linear-gradient(to bottom, darken($color2, 10), darken($color2, 1))
+      box-shadow: 0 -1px 1px 0 rgba(white, 0.4) inset, 0 1px 1px 0 rgba(black, 0.1) inset
+      background: linear-gradient(to bottom, darken($color2, 10), darken($color2, 4))
+      position: relative
 
       &.score span
-        color: rgba(white, 0.9)
+        color: rgba(white, 0.8)
         font-size: 2.5vmin
-        @include shadow($color1, 4, 4)
+        @include shadow($color2, 4, 5)
+
+      &.countdown div
+        top: 0.6vmin
+        left: 0.5vmin
+        right: 0.5vmin
+        bottom: 0.6vmin
+        border-radius: 8vmin
+        position: absolute
+        overflow: hidden
+        background: linear-gradient(to bottom, darken($color2, 10), darken($color2, 25))
+        box-shadow: 0 0 1vmin 0 rgba(white, 0.4) inset, 0 0.1vmin 0.2vmin 0 rgba(white, 0.6) inset
+        span
+          width: 50%
+          height: 100%
+          background: linear-gradient(to bottom, rgba(lighten($color2, 30), 0.9), lighten($color2, 5))
+          position: absolute
 
     &.waiting button
       cursor: pointer

@@ -30,7 +30,9 @@ html, body
   background-color: $background-color
 
 html
+  //noinspection CssInvalidPropertyValue
   width: -webkit-fill-available
+  //noinspection CssInvalidPropertyValue
   height: -webkit-fill-available
 
 body
@@ -40,11 +42,14 @@ body
   min-width: 100vw
   min-height: 100vh
   /* mobile viewport bug fix */
+  //noinspection CssInvalidPropertyValue
   min-width: -webkit-fill-available
+  //noinspection CssInvalidPropertyValue
   min-height: -webkit-fill-available
   background-color: $color2
 
 *
+  cursor: default
   user-select: none
   -webkit-touch-callout: none
   -webkit-user-select: none
