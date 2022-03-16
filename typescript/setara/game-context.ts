@@ -1,6 +1,4 @@
 import {Sound, SoundManager} from "./sounds.js"
-import {SVGCardFactory} from "./card-design.js"
-import {Rules} from "./card.js"
 import {GameRound} from "./game-round.js"
 import {Random} from "../lib/math.js"
 import {Player, PlayerState} from "./player.js"
@@ -104,14 +102,16 @@ class GameStartState extends GameState {
         super(context)
 
         context.forEachPlayer(player => player.setState(PlayerState.Hiding), players)
-        players.forEach(player => {
-            player.setActionName("Set!")
-            player.setState(PlayerState.Playing)
-        })
 
         const gameRound: GameRound = this.context.createGameRound()
         context.forEachPlayer(player => player.setCardsLeft(gameRound.available()))
-        gameRound.start().then(() => this.context.switchState(new GameSearchState(context, gameRound, players)))
+        gameRound.start().then(() => {
+            players.forEach(player => {
+                player.setActionName("Set!")
+                player.setState(PlayerState.Playing)
+            })
+            this.context.switchState(new GameSearchState(context, gameRound, players))
+        })
     }
 
     async executePlayerAction(player: Player): Promise<void> {
@@ -246,7 +246,6 @@ export type PlayerFactory = { create: (context: GameContext) => Player[] }
 export class GameContext {
     private readonly players: Player[]
     private readonly actionButton: HTMLElement = document.querySelector("button.action-button")
-    private readonly cardFactory: SVGCardFactory = new SVGCardFactory()
 
     private state: GameState
 
@@ -264,7 +263,7 @@ export class GameContext {
     }
 
     createGameRound(): GameRound {
-        return new GameRound(new Rules(), this.cardFactory, this.soundManager, this.random)
+        return new GameRound(this.soundManager, this.random, 4, 3)
     }
 
     forEachPlayer(callback: (player: Player) => void, exclude?: Player[]): void {

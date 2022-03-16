@@ -3,8 +3,8 @@ import {Combinations} from "../lib/common.js"
 export class Card {
     static INDEX_NUM_ELEMENTS = 0
     static INDEX_SHAPE = 1
-    static INDEX_SHADING = 2
-    static INDEX_COLOR = 3
+    static INDEX_COLOR = 2
+    static INDEX_SHADING = 3
 
     constructor(private readonly indices: Uint8Array) {
     }
@@ -40,6 +40,7 @@ export class CardDeck {
     private position: number = 0 | 0
 
     private constructor(private readonly cards: Card[]) {
+        console.log(cards.map(c => c.serialize()))
     }
 
     shuffle(): void {

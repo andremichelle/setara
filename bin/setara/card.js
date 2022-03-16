@@ -15,12 +15,13 @@ export class Card {
 }
 Card.INDEX_NUM_ELEMENTS = 0;
 Card.INDEX_SHAPE = 1;
-Card.INDEX_SHADING = 2;
-Card.INDEX_COLOR = 3;
+Card.INDEX_COLOR = 2;
+Card.INDEX_SHADING = 3;
 export class CardDeck {
     constructor(cards) {
         this.cards = cards;
         this.position = 0 | 0;
+        console.log(cards.map(c => c.serialize()));
     }
     static create(numFeatures, numVariations) {
         return new CardDeck(Combinations.withRepetitions(numVariations, numFeatures)

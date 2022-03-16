@@ -7,9 +7,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { CardDeck } from "./card.js";
+import { CardDeck, Rules } from "./card.js";
 import { Sound } from "./sounds.js";
 import { Options, Waiting } from "../lib/common.js";
+import { SVGCardFactory } from "./card-design.js";
 class Turn {
     constructor(onSelectionComplete, onTurnComplete) {
         this.onSelectionComplete = onSelectionComplete;
@@ -17,13 +18,10 @@ class Turn {
     }
 }
 export class GameRound {
-    constructor(rules, cardFactory, soundManager, random) {
-        this.rules = rules;
-        this.cardFactory = cardFactory;
+    constructor(soundManager, random, numFeatures, numVariations) {
         this.soundManager = soundManager;
         this.random = random;
         this.rows = [];
-        this.deck = CardDeck.create(4, 3);
         this.map = new Map();
         this.selection = [];
         this.turn = Options.None;
@@ -32,15 +30,18 @@ export class GameRound {
         this.hintIndex = 0;
         this.running = true;
         this.gameOver = false;
+        this.rules = new Rules(numFeatures, numVariations);
+        this.cardDeck = CardDeck.create(numFeatures, numVariations);
+        this.cardFactory = new SVGCardFactory(numVariations);
         this.rootElement = document.querySelector("div.play-field");
         this.cardsElement = this.rootElement.querySelector("div.cards");
-        for (let i = 0; i < rules.numVariations; i++) {
+        for (let i = 0; i < numVariations; i++) {
             const row = document.createElement("div");
             row.classList.add("row");
             this.cardsElement.appendChild(row);
             this.rows.push(row);
         }
-        this.deck.shuffle();
+        this.cardDeck.shuffle();
         this.watchResize();
         this.installUserInput();
     }
@@ -75,7 +76,7 @@ export class GameRound {
         });
     }
     available() {
-        return this.deck.available();
+        return this.cardDeck.available();
     }
     showHint() {
         const sets = this.rules.findSets(Array.from(this.map.values()));
@@ -92,6 +93,7 @@ export class GameRound {
     }
     terminate() {
         console.assert(this.turn.isEmpty());
+        this.cardFactory.terminate();
         this.rows.splice(0, this.rows.length);
         this.selection.splice(0, this.rows.length);
         this.map.clear();
@@ -124,7 +126,7 @@ export class GameRound {
                         }
                         else {
                             while (!ready) {
-                                const hasMoreCards = this.deck.available() >= 3;
+                                const hasMoreCards = this.cardDeck.available() >= 3;
                                 if (hasMoreCards) {
                                     yield this.dealCards(this.rules.numVariations);
                                 }
@@ -134,7 +136,7 @@ export class GameRound {
                                 }
                             }
                             if (!ready) {
-                                console.log(`GAME OVER available: ${this.deck.available()}, onTable: ${this.dealtCards()}`);
+                                console.log(`GAME OVER available: ${this.cardDeck.available()}, onTable: ${this.dealtCards()}`);
                                 this.gameOver = true;
                                 this.acceptUserInput = false;
                                 this.running = false;
@@ -155,7 +157,7 @@ export class GameRound {
     }
     dealCards(count) {
         return __awaiter(this, void 0, void 0, function* () {
-            const cards = this.deck.take(count);
+            const cards = this.cardDeck.take(count);
             const elements = [];
             for (const card of cards) {
                 const element = this.cardFactory.create(card);

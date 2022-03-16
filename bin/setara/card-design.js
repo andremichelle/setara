@@ -1,14 +1,13 @@
 import { createElement } from "../lib/svg.js";
 import { Card } from "./card.js";
 export class SVGCardFactory {
-    constructor(width = 66.0, height = 100.0, numVariations = 3, padding = 0.1) {
-        this.width = width;
-        this.height = height;
+    constructor(numVariations = 3, padding = 0.1) {
         this.numVariations = numVariations;
         this.padding = padding;
-        console.assert(height > width, "Card are Portrait");
+        this.width = 66.0;
+        this.height = 100.0;
         console.assert(0.0 <= padding && padding < 1.0, "padding is in percentage of height (0..1)");
-        console.assert(3 >= numVariations, "numVariations must be less or equal three.");
+        console.assert(3 <= numVariations, "numVariations must be less or equal three.");
         const innerHeight = this.height - this.height * padding;
         this.size = (innerHeight - (innerHeight + innerHeight * numVariations) * padding) / numVariations;
         this.centerX = this.width * 0.5;
@@ -44,6 +43,12 @@ export class SVGCardFactory {
         svg.setAttribute("viewBox", `0 0 ${this.width} ${this.height}`);
         return svg;
     }
+    terminate() {
+        const assets = document.querySelector("svg[svg-assets='true']");
+        if (assets !== null) {
+            assets.remove();
+        }
+    }
     elementFactoryFor(index) {
         switch (index) {
             case 0:
@@ -78,11 +83,26 @@ export class SVGCardFactory {
                     element.setAttribute("points", points.join(" "));
                     return element;
                 };
+            case 3:
+                return (index, numElements) => {
+                    const element = createElement("polygon");
+                    const radius = this.size * 0.6;
+                    const points = [];
+                    for (let i = 0; i < 6; i++) {
+                        const a = i / 6 * (Math.PI * 2.0);
+                        const px = Math.sin(a) * radius + this.getCenterX();
+                        const py = radius * 0.2 - Math.cos(a) * radius + this.getCenterY(index, numElements);
+                        points[i] = `${px.toFixed(1)} ${py.toFixed(1)}`;
+                    }
+                    element.setAttribute("points", points.join(" "));
+                    return element;
+                };
         }
     }
     shadingFor(index) {
         switch (index) {
             case 0:
+            default:
                 return (element, colorIndex) => {
                     element.setAttribute("fill", SVGCardFactory.COLORS[colorIndex]);
                     element.setAttribute("stroke", "none");
@@ -95,9 +115,15 @@ export class SVGCardFactory {
                 };
             case 2:
                 return (element, colorIndex) => {
-                    element.setAttribute("fill", `url(#pattern-${colorIndex})`);
+                    element.setAttribute("fill", `url(#pattern-stripes-${colorIndex})`);
                     element.setAttribute("stroke", SVGCardFactory.COLORS[colorIndex]);
-                    element.setAttribute("stroke-width", "0.5");
+                    element.setAttribute("stroke-width", "0.75");
+                };
+            case 3:
+                return (element, colorIndex) => {
+                    element.setAttribute("fill", `url(#pattern-circles-${colorIndex})`);
+                    element.setAttribute("stroke", SVGCardFactory.COLORS[colorIndex]);
+                    element.setAttribute("stroke-width", "0.75");
                 };
         }
     }
@@ -114,35 +140,52 @@ export class SVGCardFactory {
         svg.setAttribute("width", "0");
         svg.setAttribute("height", "0");
         const defsElement = createElement("defs");
-        const patternSize = 3;
+        this.createPattern(defsElement, (target, px, py, color) => {
+            const line = createElement("line");
+            line.x1.baseVal.value = px;
+            line.y1.baseVal.value = py;
+            line.x2.baseVal.value = px + 3;
+            line.y2.baseVal.value = py + 3;
+            line.setAttribute("stroke", color);
+            line.setAttribute("stroke-width", "1");
+            target.appendChild(line);
+        }, "stripes", 3);
+        this.createPattern(defsElement, (target, px, py, color) => {
+            const circle = (x, y, r, w) => {
+                const circle = createElement("circle");
+                circle.cx.baseVal.value = px + x;
+                circle.cy.baseVal.value = py + y;
+                circle.r.baseVal.value = r;
+                circle.setAttribute("fill", "none");
+                circle.setAttribute("stroke", color);
+                circle.setAttribute("stroke-width", `${w}`);
+                return circle;
+            };
+            target.appendChild(circle(0, 0, 6, 0.5));
+        }, "circles", 7);
+        svg.appendChild(defsElement);
+        document.body.appendChild(svg);
+    }
+    createPattern(target, fill, name, size) {
         for (let index = 0; index < this.numVariations; index++) {
             const pattern = createElement("pattern");
-            pattern.id = `pattern-${index}`;
+            pattern.id = `pattern-${name}-${index}`;
             pattern.x.baseVal.value = 0;
             pattern.y.baseVal.value = 0;
-            pattern.width.baseVal.value = patternSize;
-            pattern.height.baseVal.value = patternSize;
+            pattern.width.baseVal.value = size;
+            pattern.height.baseVal.value = size;
             pattern.setAttribute("patternUnits", "userSpaceOnUse");
             const color = SVGCardFactory.COLORS[index];
             for (let y = 0; y < 3; y++) {
                 for (let x = 0; x < 3; x++) {
-                    const px = x * patternSize;
-                    const py = y * patternSize;
-                    const line = createElement("line");
-                    line.x1.baseVal.value = px - 1;
-                    line.y1.baseVal.value = py - 1;
-                    line.x2.baseVal.value = px + patternSize;
-                    line.y2.baseVal.value = py + patternSize;
-                    line.setAttribute("stroke", color);
-                    line.setAttribute("stroke-width", "1");
-                    pattern.appendChild(line);
+                    const px = x * size;
+                    const py = y * size;
+                    fill(pattern, px, py, color);
                 }
             }
-            defsElement.appendChild(pattern);
+            target.appendChild(pattern);
         }
-        svg.appendChild(defsElement);
-        document.body.appendChild(svg);
     }
 }
-SVGCardFactory.COLORS = ["#7958AC", "#F789AE", "#49E3DA"];
+SVGCardFactory.COLORS = ["#7958AC", "#F789AE", "#49E3DA", "#2f2244"];
 //# sourceMappingURL=card-design.js.map

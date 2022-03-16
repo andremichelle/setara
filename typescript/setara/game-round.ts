@@ -11,10 +11,13 @@ class Turn {
 }
 
 export class GameRound {
+    private readonly rules: Rules
+    private readonly cardDeck: CardDeck
+    private readonly cardFactory: SVGCardFactory
+
     private readonly rootElement: HTMLElement
     private readonly cardsElement: HTMLElement
     private readonly rows: HTMLElement[] = []
-    private readonly deck: CardDeck = CardDeck.create(4, 3)
     private readonly map: Map<HTMLElement, Card> = new Map()
     private readonly selection: Card[] = []
 
@@ -26,19 +29,22 @@ export class GameRound {
     private running: boolean = true
     private gameOver: boolean = false
 
-    constructor(private readonly rules: Rules,
-                private readonly cardFactory: SVGCardFactory,
-                private readonly soundManager: SoundManager,
-                private readonly random: Random) {
+    constructor(private readonly soundManager: SoundManager,
+                private readonly random: Random,
+                numFeatures: number,
+                numVariations: number) {
+        this.rules = new Rules(numFeatures, numVariations)
+        this.cardDeck = CardDeck.create(numFeatures, numVariations)
+        this.cardFactory = new SVGCardFactory(numVariations)
         this.rootElement = document.querySelector("div.play-field")
         this.cardsElement = this.rootElement.querySelector("div.cards")
-        for (let i = 0; i < rules.numVariations; i++) {
+        for (let i = 0; i < numVariations; i++) {
             const row = document.createElement("div")
             row.classList.add("row")
             this.cardsElement.appendChild(row)
             this.rows.push(row)
         }
-        this.deck.shuffle()
+        this.cardDeck.shuffle()
 
         this.watchResize()
         this.installUserInput()
@@ -72,7 +78,7 @@ export class GameRound {
     }
 
     available(): number {
-        return this.deck.available()
+        return this.cardDeck.available()
     }
 
     showHint() {
@@ -91,6 +97,7 @@ export class GameRound {
 
     terminate() {
         console.assert(this.turn.isEmpty())
+        this.cardFactory.terminate()
         this.rows.splice(0, this.rows.length)
         this.selection.splice(0, this.rows.length)
         this.map.clear()
@@ -121,7 +128,7 @@ export class GameRound {
                         this.sortElements()
                     } else {
                         while (!ready) {
-                            const hasMoreCards = this.deck.available() >= 3
+                            const hasMoreCards = this.cardDeck.available() >= 3
                             if (hasMoreCards) {
                                 await this.dealCards(this.rules.numVariations)
                             }
@@ -131,7 +138,7 @@ export class GameRound {
                             }
                         }
                         if (!ready) {
-                            console.log(`GAME OVER available: ${this.deck.available()}, onTable: ${this.dealtCards()}`)
+                            console.log(`GAME OVER available: ${this.cardDeck.available()}, onTable: ${this.dealtCards()}`)
                             this.gameOver = true
                             this.acceptUserInput = false
                             this.running = false
@@ -150,7 +157,7 @@ export class GameRound {
     }
 
     private async dealCards(count: number): Promise<void> {
-        const cards = this.deck.take(count)
+        const cards = this.cardDeck.take(count)
         const elements = []
         for (const card of cards) {
             const element = this.cardFactory.create(card)

@@ -8,8 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { Sound } from "./sounds.js";
-import { SVGCardFactory } from "./card-design.js";
-import { Rules } from "./card.js";
 import { GameRound } from "./game-round.js";
 import { PlayerState } from "./player.js";
 class CountDown {
@@ -100,13 +98,15 @@ class GameStartState extends GameState {
     constructor(context, players) {
         super(context);
         context.forEachPlayer(player => player.setState(PlayerState.Hiding), players);
-        players.forEach(player => {
-            player.setActionName("Set!");
-            player.setState(PlayerState.Playing);
-        });
         const gameRound = this.context.createGameRound();
         context.forEachPlayer(player => player.setCardsLeft(gameRound.available()));
-        gameRound.start().then(() => this.context.switchState(new GameSearchState(context, gameRound, players)));
+        gameRound.start().then(() => {
+            players.forEach(player => {
+                player.setActionName("Set!");
+                player.setState(PlayerState.Playing);
+            });
+            this.context.switchState(new GameSearchState(context, gameRound, players));
+        });
     }
     executePlayerAction(player) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -222,7 +222,6 @@ export class GameContext {
         this.soundManager = soundManager;
         this.random = random;
         this.actionButton = document.querySelector("button.action-button");
-        this.cardFactory = new SVGCardFactory();
         const actionBegin = (event) => {
             event.preventDefault();
             this.state.executeMainAction();
@@ -233,7 +232,7 @@ export class GameContext {
         this.switchState(new GameWaitForPlayersState(this));
     }
     createGameRound() {
-        return new GameRound(new Rules(), this.cardFactory, this.soundManager, this.random);
+        return new GameRound(this.soundManager, this.random, 4, 3);
     }
     forEachPlayer(callback, exclude) {
         if (exclude === undefined) {
