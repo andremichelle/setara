@@ -11,6 +11,9 @@
   --card-size: 0vmin
   --card-gap: 1vmin
 
+html, body
+  pointer-events: none
+
 main
   margin: 0
   padding: 0
@@ -18,6 +21,7 @@ main
   height: 100%
   position: relative
   background-color: $color2
+  pointer-events: none
 
   .bubbles
     top: 0
@@ -27,6 +31,7 @@ main
     position: absolute
     background: url("../background-pattern.jpeg")
     mix-blend-mode: screen
+    pointer-events: none
     //animation: bubbles infinite 240s linear
 
   > .game
@@ -37,7 +42,7 @@ main
     position: absolute
     display: grid
     grid-template: 10vmin 1fr 10vmin / 10vmin 1fr 10vmin
-
+    pointer-events: none
 
     > .play-field
       grid-area: 2 / 2
@@ -57,9 +62,14 @@ main
         flex-direction: column
         perspective: 800px
         gap: var(--card-gap)
+        pointer-events: none
+
+        @media (orientation: portrait)
+          transform: rotate(90deg)
 
         > div.row
           display: flex
           flex-direction: row
           gap: var(--card-gap)
           transform-style: preserve-3d
+          pointer-events: none

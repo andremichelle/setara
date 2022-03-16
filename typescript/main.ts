@@ -3,7 +3,7 @@ import {LimiterWorklet} from "./audio/limiter/worklet.js"
 import {MeterWorklet} from "./audio/meter/worklet.js"
 import {MetronomeWorklet} from "./audio/metronome/worklet.js"
 import {Player} from "./setara/player.js"
-import {GamePlay} from "./setara/game-play.js"
+import {GameRound} from "./setara/game-round.js"
 import {Rules} from "./setara/card.js"
 import {SVGCardFactory} from "./setara/card-design.js"
 import {SoundManager} from "./setara/sounds.js"
@@ -26,7 +26,7 @@ const showProgress = (() => {
     boot.registerProcess(LimiterWorklet.loadModule(context))
     boot.registerProcess(MeterWorklet.loadModule(context))
     boot.registerProcess(MetronomeWorklet.loadModule(context))
-    const soundManager = new SoundManager()
+    const soundManager = new SoundManager(context)
     boot.registerProcess(soundManager.load())
     await boot.waitForCompletion()
     // --- BOOT ENDS ---
@@ -43,8 +43,13 @@ const showProgress = (() => {
         return new Player(gridAreaElement.querySelector("div.player"))
     })
 
-    const gamePlay = new GamePlay(new Rules(), new SVGCardFactory(), soundManager)
-    gamePlay.start()
+    const gameRound = new GameRound(new Rules(), new SVGCardFactory(), soundManager)
+    window.addEventListener("mousedown", async (event) => {
+        console.log(event.target, event.currentTarget)
+        await gameRound.start()
+        const gameComplete = await gameRound.waitForTurnComplete(isSet => console.log(`isSet: ${isSet}`))
+        console.log(`gameComplete: ${gameComplete}`)
+    }, {once: true})
 
 
     // prevent dragging entire document on mobile

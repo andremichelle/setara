@@ -1,12 +1,11 @@
 export enum Sound {
-    Appearance, Fly, Join, Docked, Click, Select, Countdown, Success, Failure, Cancel, GameOver
+    Appearance, Fly, Join, Docked, Click, Select, Countdown, Success, Failure, Cancel, Reject, GameOver
 }
 
 export class SoundManager {
-    private readonly context: AudioContext = new AudioContext()
     private readonly map: Map<Sound, AudioBuffer> = new Map()
 
-    constructor() {
+    constructor(private readonly context: AudioContext) {
     }
 
     async load(): Promise<void> {
@@ -20,6 +19,7 @@ export class SoundManager {
         await this.register(Sound.Success, "samples/success.wav")
         await this.register(Sound.Failure, "samples/failure.wav")
         await this.register(Sound.Cancel, "samples/cancel.wav")
+        await this.register(Sound.Reject, "samples/reject.wav")
         await this.register(Sound.GameOver, "samples/gameover.wav")
     }
 

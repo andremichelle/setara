@@ -91,7 +91,7 @@ export const newAudioContext = (options: AudioContextOptions = {
 }): AudioContext => {
     const context = new AudioContext(options)
     if (context.state !== "running") {
-        const eventOptions = {capture: true}
+        const eventOptions: AddEventListenerOptions = {capture: true}
         const resume = async () => {
             if (context.state !== "running") {
                 try {

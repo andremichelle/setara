@@ -10,7 +10,7 @@ class Turn {
     }
 }
 
-export class GamePlay {
+export class GameRound {
     private readonly rootElement: Element
     private readonly cardsElement: Element
     private readonly rows: Element[] = []
@@ -77,7 +77,7 @@ export class GamePlay {
 
     private async processCardClick(card: Card, element: Element): Promise<void> {
         if (this.turn.isEmpty()) {
-            this.soundManager.play(Sound.Cancel)
+            this.soundManager.play(Sound.Reject)
             return Promise.resolve()
         }
         this.soundManager.play(Sound.Click)

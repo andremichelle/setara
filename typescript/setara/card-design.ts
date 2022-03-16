@@ -6,7 +6,6 @@ type ShadingFactory = (element: SVGElement, colorIndex: number) => void
 
 export class SVGCardFactory {
     static COLORS = ["#7958AC", "#F789AE", "#49E3DA"]
-    // static COLORS = ["hsl(30, 75%, 50%)", "hsl(80, 50%, 50%)", "hsl(240, 33%, 50%)"]
 
     private readonly centerX: number
     private readonly centerY: Float32Array[]
@@ -79,7 +78,7 @@ export class SVGCardFactory {
             case 2:
                 return (index: number, numElements: number): SVGElement => {
                     const element = createElement("polygon")
-                    const radius = this.size / 2
+                    const radius = this.size * 0.6
                     const points = []
                     for (let i = 0; i < 3; i++) {
                         const a = i / 3 * (Math.PI * 2.0)
