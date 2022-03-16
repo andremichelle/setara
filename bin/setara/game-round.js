@@ -294,6 +294,7 @@ export class GameRound {
     }
     installUserInput() {
         const click = (event) => __awaiter(this, void 0, void 0, function* () {
+            event.preventDefault();
             if (!this.acceptUserInput)
                 return;
             const element = event.target;
@@ -308,10 +309,7 @@ export class GameRound {
             }
         });
         this.rootElement.addEventListener("mousedown", click);
-        this.rootElement.addEventListener("touchstart", (event) => __awaiter(this, void 0, void 0, function* () {
-            this.rootElement.removeEventListener("mousedown", click);
-            yield click(event);
-        }));
+        this.rootElement.addEventListener("touchstart", click);
         let timeoutId = -1;
         window.addEventListener("keydown", (event) => __awaiter(this, void 0, void 0, function* () {
             if (!this.acceptUserInput)
