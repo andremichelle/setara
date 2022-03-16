@@ -1,16 +1,14 @@
-import { Rules } from "./card.js";
 import { SoundManager } from "./sounds.js";
 import { Random } from "../lib/math.js";
-import { SVGCardFactory } from "./card-design.js";
 export declare class GameRound {
-    private readonly rules;
-    private readonly cardFactory;
     private readonly soundManager;
     private readonly random;
+    private readonly rules;
+    private readonly cardDeck;
+    private readonly cardFactory;
     private readonly rootElement;
     private readonly cardsElement;
     private readonly rows;
-    private readonly deck;
     private readonly map;
     private readonly selection;
     private turn;
@@ -19,7 +17,7 @@ export declare class GameRound {
     private hintIndex;
     private running;
     private gameOver;
-    constructor(rules: Rules, cardFactory: SVGCardFactory, soundManager: SoundManager, random: Random);
+    constructor(soundManager: SoundManager, random: Random, numFeatures: number, numVariations: number);
     start(): Promise<void>;
     waitForTurnComplete(onSelectionComplete: (isSet: boolean) => void): Promise<boolean>;
     cancelTurn(): Promise<void>;

@@ -16,7 +16,6 @@ export declare class GameContext {
     private readonly random;
     private readonly players;
     private readonly actionButton;
-    private readonly cardFactory;
     private state;
     constructor(soundManager: SoundManager, random: Random, playerFactory: PlayerFactory);
     createGameRound(): GameRound;

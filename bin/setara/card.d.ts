@@ -2,8 +2,8 @@ export declare class Card {
     private readonly indices;
     static INDEX_NUM_ELEMENTS: number;
     static INDEX_SHAPE: number;
-    static INDEX_SHADING: number;
     static INDEX_COLOR: number;
+    static INDEX_SHADING: number;
     constructor(indices: Uint8Array);
     getIndexAt(index: number): number;
     toString(): string;

@@ -1,22 +1,22 @@
 import { Card } from "./card.js";
-declare type ElementFactory = (index: number, numElements: number) => SVGElement;
-declare type ShadingFactory = (element: SVGElement, colorIndex: number) => void;
-export declare class SVGCardFactory {
-    readonly width: number;
-    readonly height: number;
+import { Terminable } from "../lib/common";
+export declare class SVGCardFactory implements Terminable {
     readonly numVariations: number;
     readonly padding: number;
     static COLORS: string[];
+    private readonly width;
+    private readonly height;
     private readonly centerX;
     private readonly centerY;
     private readonly size;
-    constructor(width?: number, height?: number, numVariations?: number, padding?: number);
+    constructor(numVariations?: number, padding?: number);
     create(card: Card): HTMLElement;
     createEmptySVG(): HTMLElement;
-    elementFactoryFor(index: number): ElementFactory;
-    shadingFor(index: number): ShadingFactory;
+    terminate(): void;
+    private elementFactoryFor;
+    private shadingFor;
     private getCenterX;
     private getCenterY;
     private installSVGAssets;
+    private createPattern;
 }
-export {};
