@@ -8,13 +8,34 @@
 main
   width: 100%
   height: 100%
-  display: grid
-  grid-template: 10vmin 1fr 10vmin / 10vmin 1fr 10vmin
+  position: relative
+  background-color: $color2
 
-  .play-field
-    padding: 1vmin
-    grid-area: 2 / 2
-    border-radius: calc(var(--size) * 3)
-    background-color: $color1
-    white-space: pre-line
-    box-shadow: 0 0 1vmin 0 rgba(black, 0.3) inset, 0 0 1vmin 0 rgba(white, 0.6)
+  > .bubbles
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    position: absolute
+    background: url("../background-pattern.jpeg"), $background-color
+    background-size: 60vmin
+    mix-blend-mode: screen
+  //animation: bubbles infinite 240s linear
+
+  > .game
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    position: absolute
+    display: grid
+    grid-template: 10vmin 1fr 10vmin / 10vmin 1fr 10vmin
+
+
+    > .play-field
+      padding: 1vmin
+      grid-area: 2 / 2
+      border-radius: calc(var(--size) * 3)
+      background-color: $color1
+      white-space: pre-line
+      box-shadow: 0 0 1vmin 0 rgba(black, 0.3) inset, 0 0 1vmin 0 rgba(white, 0.6)

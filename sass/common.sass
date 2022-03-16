@@ -27,9 +27,9 @@ html, body
   -webkit-overflow-scrolling: touch
   touch-action: manipulation
   color: white
-  background-color: $background-color
 
 html
+  background: darken($color1, 33)
   //noinspection CssInvalidPropertyValue
   width: -webkit-fill-available
   //noinspection CssInvalidPropertyValue
@@ -46,7 +46,6 @@ body
   min-width: -webkit-fill-available
   //noinspection CssInvalidPropertyValue
   min-height: -webkit-fill-available
-  background-color: $color2
 
 *
   cursor: default
@@ -72,6 +71,12 @@ svg.preloader
 
   &.error circle
     stroke: #C30
+
+  > circle:nth-of-type(1)
+    stroke: $color1
+
+  > circle:nth-of-type(2)
+    stroke: $color4
 
   > circle.progress
     stroke-dasharray: calc(var(--radius) * 6.2831853)

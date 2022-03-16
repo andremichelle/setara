@@ -26,7 +26,7 @@ const showProgress = (() => {
     // --- BOOT ENDS ---
 
     const orientations = ["top", "left", "right", "bottom"]
-    const mainElement = document.querySelector("main")
+    const mainElement = document.querySelector("main div.game")
     const playerTemplate = mainElement.querySelector("div.player-wrapper.template")
     playerTemplate.remove()
     const players: Player[] = orientations.map(orientation => {

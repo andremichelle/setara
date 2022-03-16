@@ -31,6 +31,7 @@ main div.player-wrapper
     //noinspection CssInvalidFunction
     transform: rotate(var(--rotation)) translate(0, calc(10vmin * var(--offset)))
     transition: transform 0.3s ease-in
+    position: relative
 
     &.hide
       --offset: 1.0
@@ -44,7 +45,7 @@ main div.player-wrapper
       border-radius: calc(var(--size) * 4)
       color: lighten($color3, 20)
       background: linear-gradient(to bottom, darken($color2, 1), darken($color2, 20))
-      box-shadow: 0 1px 1px 0 rgba(white, 0.4) inset, 0 -1px 1px 0 rgba(black, 0.2) inset
+      box-shadow: 0 1px 1px 0 rgba(white, 0.4) inset, 0 -1px 1px 0 rgba(black, 0.2) inset, 0 0.75vmin 0.5vmin 0 rgba(black, 0.2)
       font-family: inherit
       font-size: 3vmin
       @include shadow(darken($color2, 10), 7, 4)
@@ -56,7 +57,7 @@ main div.player-wrapper
       width: 13vmin
       height: 4vmin
       border-radius: 4vmin
-      box-shadow: 0 -1px 1px 0 rgba(white, 0.4) inset, 0 1px 1px 0 rgba(black, 0.1) inset
+      box-shadow: 0 -1px 1px 0 rgba(white, 0.6) inset, 0 1px 1px 0 rgba(black, 0.2) inset
       background: linear-gradient(to bottom, darken($color2, 10), darken($color2, 4))
       position: relative
 
@@ -75,11 +76,24 @@ main div.player-wrapper
         overflow: hidden
         background: linear-gradient(to bottom, darken($color2, 10), darken($color2, 25))
         box-shadow: 0 0 1vmin 0 rgba(white, 0.4) inset, 0 0.1vmin 0.2vmin 0 rgba(white, 0.6) inset
+
         span
           width: 50%
           height: 100%
           background: linear-gradient(to bottom, rgba(lighten($color2, 30), 0.9), lighten($color2, 5))
           position: absolute
+
+    > div.crown
+      pointer-events: none
+      top: -10vmin
+      transform: translate(0, 0)
+      filter: url(#glow)
+      position: absolute
+
+      > svg
+        fill: $color3
+        width: 15.6vmin
+        height: 10vmin
 
     &.waiting button
       cursor: pointer
