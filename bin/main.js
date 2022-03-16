@@ -44,6 +44,7 @@ const showProgress = (() => {
     };
     window["doNotGc"] = new GameContext(soundManager, new Mulberry32(), playerFactory);
     document.addEventListener('touchmove', (event) => event.preventDefault(), { passive: false });
+    document.addEventListener('dblclick', (event) => event.preventDefault(), { passive: false });
     const resize = () => document.body.style.height = `${window.innerHeight}px`;
     window.addEventListener("resize", resize);
     resize();

@@ -4,11 +4,6 @@ import {SoundManager} from "./setara/sounds.js"
 import {Mulberry32} from "./lib/math.js"
 import {GameContext, PlayerFactory} from "./setara/game-context.js"
 
-/**
- * Reset score, when starting over
- *
- */
-
 const showProgress = (() => {
     const progress: SVGSVGElement = document.querySelector("svg.preloader")
     window.onerror = () => progress.classList.add("error")
@@ -49,6 +44,7 @@ const showProgress = (() => {
 
     // prevent dragging entire document on mobile
     document.addEventListener('touchmove', (event: TouchEvent) => event.preventDefault(), {passive: false})
+    document.addEventListener('dblclick', (event: Event) => event.preventDefault(), {passive: false})
     const resize = () => document.body.style.height = `${window.innerHeight}px`
     window.addEventListener("resize", resize)
     resize()
