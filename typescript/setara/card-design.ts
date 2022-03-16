@@ -1,4 +1,4 @@
-import { createElement } from "../lib/svg.js"
+import {createElement} from "../lib/svg.js"
 import {Card} from "./card.js"
 
 type ElementFactory = (index: number, numElements: number) => SVGElement
@@ -32,7 +32,7 @@ export class SVGCardFactory {
         }
     }
 
-    create(card: Card): SVGSVGElement {
+    create(card: Card): HTMLElement {
         const colorIndex = card.getIndexAt(Card.INDEX_COLOR)
         const svg = this.createEmptySVG()
         svg.setAttribute("indices", card.serialize())
@@ -44,15 +44,15 @@ export class SVGCardFactory {
             shadingFactory(element, colorIndex)
             svg.appendChild(element)
         }
-        return svg
+        return svg as unknown as HTMLElement
     }
 
-    createEmptySVG(): SVGSVGElement {
+    createEmptySVG(): HTMLElement {
         const svg = createElement("svg")
         svg.classList.add("card")
         svg.setAttribute("version", "1.1")
         svg.setAttribute("viewBox", `0 0 ${this.width} ${this.height}`)
-        return svg
+        return svg as unknown as HTMLElement
     }
 
     elementFactoryFor(index: number): ElementFactory {

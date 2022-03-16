@@ -11,11 +11,11 @@ class Turn {
 }
 
 export class GameRound {
-    private readonly rootElement: Element
-    private readonly cardsElement: Element
-    private readonly rows: Element[] = []
+    private readonly rootElement: HTMLElement
+    private readonly cardsElement: HTMLElement
+    private readonly rows: HTMLElement[] = []
     private readonly deck: CardDeck = CardDeck.create(4, 3)
-    private readonly map: Map<Element, Card> = new Map()
+    private readonly map: Map<HTMLElement, Card> = new Map()
     private readonly selection: Card[] = []
 
     private turn: Option<Turn> = Options.None
@@ -173,38 +173,42 @@ export class GameRound {
 
     private async removeSet(cards: Card[]): Promise<void> {
         const waiting = []
-        const elements = cards.map(card => this.findElement(card))
-        const placeholders: Element[] = []
+        const elements: HTMLElement[] = cards.map(card => this.findElement(card))
+        const placeholders: HTMLElement[] = []
         let zIndex = 0
         for (const element of elements) {
             this.map.delete(element)
 
+            element.classList.remove("selected")
+
             const elementRect = element.getBoundingClientRect()
             const containerRect = this.cardsElement.getBoundingClientRect()
-            element.style.top = `${elementRect.top - containerRect.top}px`
-            element.style.left = `${elementRect.left - containerRect.left}px`
-            element.style.height = `${elementRect.height}px`
+            if(screen.orientation.type.includes("portrait")) {
+                element.style.left = `${elementRect.top - containerRect.top}px`
+                element.style.bottom = `${elementRect.left - containerRect.left}px`
+            } else {
+                element.style.top = `${elementRect.top - containerRect.top}px`
+                element.style.left = `${elementRect.left - containerRect.left}px`
+            }
             element.style.position = "absolute"
             element.style.zIndex = `${1000 - zIndex++}`
 
             const placeholder = this.cardFactory.createEmptySVG()
             placeholders.push(placeholder)
             element.parentNode.replaceChild(placeholder, element)
-
             this.cardsElement.appendChild(element)
+
             element.classList.add("solved")
             waiting.push(Waiting.forAnimationComplete(element).then(() => element.remove()))
             await Waiting.forFrames(this.random.nextInt(4, 16))
         }
         await Promise.all(waiting)
-        this.soundManager.play(Sound.Fly)
         placeholders.forEach(placeholder => placeholder.remove())
-        await Waiting.forFrames(30)
         return Promise.resolve()
     }
 
-    private sortElement(element: SVGSVGElement) {
-        const sorted: Element[] = this.rows.slice()
+    private sortElement(element: HTMLElement) {
+        const sorted: HTMLElement[] = this.rows.slice()
             .sort((a: Element, b: Element): number => a.childElementCount - b.childElementCount)
         sorted[0].appendChild(element)
     }
@@ -225,7 +229,7 @@ export class GameRound {
         }
     }
 
-    private findElement(card: Card): SVGSVGElement {
+    private findElement(card: Card): HTMLElement {
         return this.cardsElement.querySelector(`svg[indices='${card.serialize()}']`)
     }
 
@@ -293,7 +297,7 @@ export class GameRound {
     private installUserInput(): void {
         const click = async (event: Event) => {
             if (!this.acceptUserInput) return
-            const element = event.target as Element
+            const element = event.target as HTMLElement
             const card = this.map.get(element)
             if (card !== undefined) {
                 this.acceptUserInput = false

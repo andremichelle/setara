@@ -87,7 +87,10 @@ main
         perspective: 800px
         gap: var(--card-gap)
         pointer-events: none
-        transform-origin: center center
+        transform-style: preserve-3d
+        align-items: center
+        justify-content: center
+        position: relative
 
         @media (orientation: portrait)
           transform: rotate(90deg)
@@ -98,3 +101,4 @@ main
           gap: var(--card-gap)
           transform-style: preserve-3d
           pointer-events: none
+          position: relative
