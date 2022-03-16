@@ -152,7 +152,7 @@ svg.preloader > circle.progress {
 }
 @keyframes point-decay-flash {
   0% {
-    filter: brightness(200%) blur(4px);
+    filter: brightness(200%);
   }
   100% {
     filter: brightness(100%);
@@ -479,7 +479,7 @@ svg.card.visible {
   visibility: visible;
 }
 svg.card.hint {
-  outline: 0.4vmin #49E3DA solid;
+  outline: 0.3vmin #49E3DA solid;
 }
 svg.card.selected {
   animation: selected 0.3s infinite alternate ease-in-out;

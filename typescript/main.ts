@@ -1,11 +1,8 @@
 import {Boot, newAudioContext, preloadImagesOfCssFile} from "./lib/boot.js"
-import {LimiterWorklet} from "./audio/limiter/worklet.js"
-import {MeterWorklet} from "./audio/meter/worklet.js"
-import {MetronomeWorklet} from "./audio/metronome/worklet.js"
 import {Player} from "./setara/player.js"
 import {SoundManager} from "./setara/sounds.js"
 import {Mulberry32} from "./lib/math.js"
-import {GameContext} from "./setara/game-context.js"
+import {GameContext, PlayerFactory} from "./setara/game-context.js"
 
 const showProgress = (() => {
     const progress: SVGSVGElement = document.querySelector("svg.preloader")
@@ -22,9 +19,6 @@ const showProgress = (() => {
     boot.addObserver(boot => showProgress(boot.normalizedPercentage()))
     boot.registerProcess(preloadImagesOfCssFile("./bin/main.css"))
     const context = newAudioContext()
-    boot.registerProcess(LimiterWorklet.loadModule(context))
-    boot.registerProcess(MeterWorklet.loadModule(context))
-    boot.registerProcess(MetronomeWorklet.loadModule(context))
     const soundManager = new SoundManager(context)
     boot.registerProcess(soundManager.load())
     await boot.waitForCompletion()
@@ -34,7 +28,7 @@ const showProgress = (() => {
     const mainElement = document.querySelector("main div.game")
     const playerTemplate = mainElement.querySelector("div.player-wrapper.template")
     playerTemplate.remove()
-    const playerFactory = {
+    const playerFactory: PlayerFactory = {
         create: (context: GameContext): Player[] => {
             return orientations.map(orientation => {
                 playerTemplate.classList.remove("template")

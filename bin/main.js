@@ -8,9 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { Boot, newAudioContext, preloadImagesOfCssFile } from "./lib/boot.js";
-import { LimiterWorklet } from "./audio/limiter/worklet.js";
-import { MeterWorklet } from "./audio/meter/worklet.js";
-import { MetronomeWorklet } from "./audio/metronome/worklet.js";
 import { Player } from "./setara/player.js";
 import { SoundManager } from "./setara/sounds.js";
 import { Mulberry32 } from "./lib/math.js";
@@ -27,9 +24,6 @@ const showProgress = (() => {
     boot.addObserver(boot => showProgress(boot.normalizedPercentage()));
     boot.registerProcess(preloadImagesOfCssFile("./bin/main.css"));
     const context = newAudioContext();
-    boot.registerProcess(LimiterWorklet.loadModule(context));
-    boot.registerProcess(MeterWorklet.loadModule(context));
-    boot.registerProcess(MetronomeWorklet.loadModule(context));
     const soundManager = new SoundManager(context);
     boot.registerProcess(soundManager.load());
     yield boot.waitForCompletion();
