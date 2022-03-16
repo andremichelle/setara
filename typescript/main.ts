@@ -3,10 +3,9 @@ import {LimiterWorklet} from "./audio/limiter/worklet.js"
 import {MeterWorklet} from "./audio/meter/worklet.js"
 import {MetronomeWorklet} from "./audio/metronome/worklet.js"
 import {Player} from "./setara/player.js"
-import {GameRound} from "./setara/game-round.js"
-import {Rules} from "./setara/card.js"
-import {SVGCardFactory} from "./setara/card-design.js"
 import {SoundManager} from "./setara/sounds.js"
+import {Mulberry32} from "./lib/math.js"
+import {GameContext} from "./setara/game-context.js"
 
 const showProgress = (() => {
     const progress: SVGSVGElement = document.querySelector("svg.preloader")
@@ -35,22 +34,19 @@ const showProgress = (() => {
     const mainElement = document.querySelector("main div.game")
     const playerTemplate = mainElement.querySelector("div.player-wrapper.template")
     playerTemplate.remove()
-    const players: Player[] = orientations.map(orientation => {
-        playerTemplate.classList.remove("template")
-        const gridAreaElement = playerTemplate.cloneNode(true) as HTMLElement
-        gridAreaElement.classList.add(orientation)
-        mainElement.appendChild(gridAreaElement)
-        return new Player(gridAreaElement.querySelector("div.player"))
-    })
+    const playerFactory = {
+        create: (context: GameContext): Player[] => {
+            return orientations.map(orientation => {
+                playerTemplate.classList.remove("template")
+                const gridAreaElement = playerTemplate.cloneNode(true) as HTMLElement
+                gridAreaElement.classList.add(orientation)
+                mainElement.appendChild(gridAreaElement)
+                return new Player(context, gridAreaElement.querySelector("div.player"))
+            })
+        }
+    }
 
-    const gameRound = new GameRound(new Rules(), new SVGCardFactory(), soundManager)
-    window.addEventListener("mousedown", async (event) => {
-        console.log(event.target, event.currentTarget)
-        await gameRound.start()
-        const gameComplete = await gameRound.waitForTurnComplete(isSet => console.log(`isSet: ${isSet}`))
-        console.log(`gameComplete: ${gameComplete}`)
-    }, {once: true})
-
+    new GameContext(soundManager, new Mulberry32(), playerFactory)
 
     // prevent dragging entire document on mobile
     document.addEventListener('touchmove', (event: TouchEvent) => event.preventDefault(), {passive: false})

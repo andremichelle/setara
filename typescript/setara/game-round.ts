@@ -1,6 +1,6 @@
 import {Card, CardDeck, Rules} from "./card.js"
 import {Sound, SoundManager} from "./sounds.js"
-import {Mulberry32, Random} from "../lib/math.js"
+import {Random} from "../lib/math.js"
 import {Option, Options, Waiting} from "../lib/common.js"
 import {SVGCardFactory} from "./card-design.js"
 
@@ -29,7 +29,7 @@ export class GameRound {
     constructor(private readonly rules: Rules,
                 private readonly cardFactory: SVGCardFactory,
                 private readonly soundManager: SoundManager,
-                private readonly random: Random = new Mulberry32()) {
+                private readonly random: Random) {
         this.rootElement = document.querySelector("div.play-field")
         this.cardsElement = this.rootElement.querySelector("div.cards")
         for (let i = 0; i < rules.numVariations; i++) {
@@ -71,8 +71,18 @@ export class GameRound {
         return Promise.resolve()
     }
 
-    isGameOver(): boolean {
-        return this.gameOver
+    available(): number {
+        return this.deck.available()
+    }
+
+    terminate() {
+        console.assert(this.turn.isEmpty())
+        this.rows.splice(0, this.rows.length)
+        this.selection.splice(0, this.rows.length)
+        this.map.clear()
+        while(this.cardsElement.lastChild) {
+            this.cardsElement.lastChild.remove()
+        }
     }
 
     private async processCardClick(card: Card, element: Element): Promise<void> {

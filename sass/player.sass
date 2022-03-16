@@ -31,13 +31,15 @@ main div.player-wrapper
     justify-content: center
     //noinspection CssInvalidFunction
     transform: rotate(var(--rotation)) translate(0, calc(10vmin * var(--offset)))
-    transition: transform 0.3s ease-in, opacity 0.3s ease-out
+    transition: transform 0.3s ease-in
     position: relative
     opacity: 1.0
 
     &.hide
-      opacity: 0.0
       --offset: 1.0
+
+      > div.points
+        display: none
 
     > button
       margin: 0 6vmin
@@ -46,12 +48,14 @@ main div.player-wrapper
       appearance: none
       padding: 1.5vmin 3vmin
       border-radius: 4vmin
-      color: lighten($color3, 20)
+      color: rgba(lighten($color3, 20), 0.8)
+      letter-spacing: 0.1em
       background: linear-gradient(to bottom, darken($color2, 1), darken($color2, 20))
       box-shadow: 0 1px 1px 0 rgba(white, 0.4) inset, 0 -1px 1px 0 rgba(black, 0.2) inset, 0 0.75vmin 0.5vmin 0 rgba(black, 0.2)
       font-family: inherit
       font-size: 3vmin
       pointer-events: all
+      min-width: 16vmin
       @include shadow(darken($color2, 10), 7, 4)
 
     > div.display
@@ -68,7 +72,12 @@ main div.player-wrapper
       &.score span
         color: rgba(white, 0.8)
         font-size: 2.5vmin
+        letter-spacing: 0.1vmin
         @include shadow($color2, 4, 5)
+
+        &.negative
+          color: rgba(#F50, 0.9)
+          @include shadow(#E40, 4, 5)
 
       &.countdown div
         top: 0.6vmin
@@ -85,7 +94,11 @@ main div.player-wrapper
           width: 50%
           height: 100%
           background: linear-gradient(to bottom, rgba(lighten($color2, 30), 0.9), lighten($color2, 5))
+          box-shadow: 0.2vmin 0 0.4vmin 0 rgba(black, 0.1)
           position: absolute
+
+          &.flash
+            animation: countdown-flash 200ms ease-out
 
     > div.points
       pointer-events: none
@@ -102,6 +115,7 @@ main div.player-wrapper
       top: -10vmin
       position: absolute
       filter: url(#glow)
+      display: none
 
       > svg
         fill: $color3
@@ -111,3 +125,29 @@ main div.player-wrapper
     &.waiting button
       cursor: pointer
       animation: wobbling 0.3s infinite alternate ease-in-out
+
+    &.requesting button
+      cursor: pointer
+      color: $color2
+      background: linear-gradient(to top, darken($color2, 1), darken($color2, 20))
+      box-shadow: 0 -1px 2px 0 rgba(white, 0.6) inset
+      @include shadow(darken($color2, 10), 5, 6)
+
+    &.playing button
+      cursor: pointer
+
+    &.selecting button
+      opacity: 0.8
+      color: $color2
+      background: linear-gradient(to top, darken($color2, 1), darken($color2, 20))
+      box-shadow: 0 -1px 2px 0 rgba(white, 0.6) inset
+      @include shadow(darken($color2, 10), 5, 6)
+
+    &.winner
+      div.crown
+        display: flex !important
+
+      div.points
+        display: none
+
+
