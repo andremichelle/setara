@@ -26,5 +26,6 @@ export declare class Player {
     flashCountDown(): void;
     addScore(points: number): void;
     getScore(): number;
+    reset(): void;
     private updateScoreLabel;
 }

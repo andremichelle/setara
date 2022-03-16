@@ -96,12 +96,15 @@ export class Player {
     getScore() {
         return this.score;
     }
+    reset() {
+        this.score = 0;
+    }
     updateScoreLabel() {
         if (this.score < 0)
             this.scoreLabel.classList.add("negative");
         else
             this.scoreLabel.classList.remove("negative");
-        this.scoreLabel.textContent = `${Math.abs(this.score).toString(10).padStart(4, "0")}`;
+        this.scoreLabel.textContent = `${Math.abs(this.score).toString(10).padStart(5, "0")}`;
     }
 }
 //# sourceMappingURL=player.js.map

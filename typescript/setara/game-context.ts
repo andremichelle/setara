@@ -236,6 +236,7 @@ class GameOverState extends GameState {
     executeMainAction(): void {
         this.gameRound.terminate()
         this.gameRound = null
+        this.context.forEachPlayer(player => player.reset())
         this.context.switchState(new GameWaitForPlayersState(this.context))
     }
 }

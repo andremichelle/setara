@@ -4,6 +4,11 @@ import {SoundManager} from "./setara/sounds.js"
 import {Mulberry32} from "./lib/math.js"
 import {GameContext, PlayerFactory} from "./setara/game-context.js"
 
+/**
+ * Reset score, when starting over
+ *
+ */
+
 const showProgress = (() => {
     const progress: SVGSVGElement = document.querySelector("svg.preloader")
     window.onerror = () => progress.classList.add("error")
