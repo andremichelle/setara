@@ -183,7 +183,7 @@ export class GameRound {
 
             const elementRect = element.getBoundingClientRect()
             const containerRect = this.cardsElement.getBoundingClientRect()
-            if(window.matchMedia("(orientation: portrait)").matches) {
+            if (window.matchMedia("(orientation: portrait)").matches) {
                 element.style.left = `${elementRect.top - containerRect.top}px`
                 element.style.bottom = `${elementRect.left - containerRect.left}px`
             } else {
@@ -296,6 +296,7 @@ export class GameRound {
 
     private installUserInput(): void {
         const click = async (event: Event) => {
+            event.preventDefault()
             if (!this.acceptUserInput) return
             const element = event.target as HTMLElement
             const card = this.map.get(element)
@@ -308,10 +309,7 @@ export class GameRound {
             }
         }
         this.rootElement.addEventListener("mousedown", click)
-        this.rootElement.addEventListener("touchstart", async event => {
-            this.rootElement.removeEventListener("mousedown", click)
-            await click(event)
-        })
+        this.rootElement.addEventListener("touchstart", click)
 
         let timeoutId: number = -1
         window.addEventListener("keydown", async (event: KeyboardEvent) => {
