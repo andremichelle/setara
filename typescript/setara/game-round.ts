@@ -183,7 +183,7 @@ export class GameRound {
 
             const elementRect = element.getBoundingClientRect()
             const containerRect = this.cardsElement.getBoundingClientRect()
-            if(screen.orientation.type.includes("portrait")) {
+            if(window.matchMedia("(orientation: portrait)").matches) {
                 element.style.left = `${elementRect.top - containerRect.top}px`
                 element.style.bottom = `${elementRect.left - containerRect.left}px`
             } else {
