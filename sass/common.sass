@@ -1,21 +1,13 @@
+@import colors
+
 $background-color: #1A1A1A
 $font: 'Super Mario 256', sans-serif
-
-//https://www.schemecolor.com/amazing-5-color-scheme.php
-$color1: #7958AC
-$color2: #F789AE
-$color3: #F5E9BB
-$color4: #49E3DA
-$color5: #2EC2AD
 
 @mixin shadow($color, $count, $mult)
   $all: ()
   @for $i from 1 through $count
     $all: append($all, append(0 $i * 0.125vmin 0, darken($color, $i * $mult * 1%)), comma)
   text-shadow: $all
-
-\:root
-  --size: min(1vw, 1vh)
 
 html, body
   margin: 0

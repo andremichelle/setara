@@ -1,0 +1,31 @@
+@import common
+
+svg.card
+  border-radius: 1vmin
+  background: linear-gradient(to top, lighten($color3, 15), lighten($color3, 25))
+  border: 0.2vmin rgba(black, 0.6) solid
+  visibility: hidden
+  height: var(--card-size)
+
+  &.appearing
+    visibility: visible
+    animation: appear 0.5s ease-out
+
+  &.visible
+    visibility: visible
+
+  &.hint
+    box-shadow: 0 0 8px 0 rgba(green, 0.4) inset
+
+  &.selected
+    animation: selected 0.3s infinite alternate ease-in-out
+
+  &.invalid
+    animation: invalid 0.3s both ease-in-out
+    box-shadow: 0 0 8px 0 rgba(red, 0.2) inset, 0 0 1px 0 rgba(red, 0.2)
+
+  &.solved
+    animation: disappear 1.5s linear
+
+  *
+    pointer-events: none

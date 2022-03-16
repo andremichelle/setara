@@ -395,3 +395,118 @@ export abstract class Settings<DATA> implements Observable<Settings<DATA>>, Seri
         this.terminator.terminate()
     }
 }
+
+export class Combinations {
+    /**
+     * Returns a two-dimensional Vector.<Vector.<number>> showing all possible combinations. (k out of n).
+     *
+     * @param n The size of data.
+     * @param k The size of a single combination.
+     * @return All combination as zero-based indices.
+     */
+    static withRepetitions(n: number, k: number): Uint8Array[] {
+        const nc: number = Math.pow(n, k)
+        const combinations: Uint8Array[] = []
+        for (let i: number = 0; i < nc; ++i) {
+            const combination = new Uint8Array(k)
+            for (let j: number = 0, m: number = 1; j < k; ++j) {
+                combination[j] = Math.floor(i / m) % n
+                m *= n
+            }
+            combinations[i] = combination
+        }
+        return combinations
+    }
+
+    /**
+     * Returns a two-dimensional Vector.<Vector.<number>> showing all possible combinations. (k out of n).
+     *
+     * Copyright 2012 Dmytro Paukov d.paukov@gmail.com
+     * GNU Lesser GPL
+     * https://code.google.com/p/combinatoricslib/
+     *
+     * @param n The size of data.
+     * @param k The size of a single combination.
+     * @return All combination as zero-based indices.
+     */
+    static withoutRepetitions(n: number, k: number): Uint8Array[] {
+        const combinations: Uint8Array[] = []
+        const bits = new Uint8Array(k + 1)
+        let i: number
+        let e: number
+        for (i = 0; i <= k; i++) {
+            bits[i] = i
+        }
+        if (n > 0) {
+            e = 1
+        }
+        while (!((e == 0) || (k > n))) {
+            const combination = new Uint8Array(k)
+            for (i = 1; i <= k; ++i) {
+                if (n > 0) {
+                    combination[i - 1] = bits[i] - 1
+                }
+            }
+            combinations.push(combination)
+            e = k
+            while (bits[e] == n - k + e) {
+                e--
+                if (e === 0) {
+                    break
+                }
+            }
+            bits[e]++
+            for (i = e + 1; i <= k; i++) {
+                bits[i] = bits[i - 1] + 1
+            }
+        }
+        return combinations
+    }
+}
+
+export class Waiting {
+    static forFrame(): Promise<void> {
+        return new Promise(resolve => requestAnimationFrame(() => resolve()))
+    }
+
+    static forFrames(count: number): Promise<void> {
+        return new Promise(resolve => {
+            const callback = () => {
+                if (--count <= 0) resolve()
+                else requestAnimationFrame(callback)
+            }
+            requestAnimationFrame(callback)
+        })
+    }
+
+    static forAnimationComplete(element: Element): Promise<void> {
+        return Waiting.forEvents(element, "animationstart", "animationend")
+    }
+
+    static forTransitionComplete(element: Element): Promise<void> {
+        return Waiting.forEvents(element, "transitionstart", "transitionend")
+    }
+
+    static forEvent(element: Element, type: string): Promise<void> {
+        return new Promise<void>((resolve) =>
+            element.addEventListener(type, () => resolve(), {once: true}))
+    }
+
+    private static forEvents(element: Element, startType: string, endType: string): Promise<void> {
+        let numProperties = 0
+        element.addEventListener(startType, event => {
+            if (event.target === element) {
+                numProperties++
+            }
+        })
+        return new Promise<void>((resolve) =>
+            element.addEventListener(endType, event => {
+                if (event.target === element) {
+                    if (--numProperties === 0) {
+                        resolve()
+                    }
+                    console.assert(numProperties >= 0)
+                }
+            }))
+    }
+}

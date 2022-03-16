@@ -3,6 +3,10 @@ import {LimiterWorklet} from "./audio/limiter/worklet.js"
 import {MeterWorklet} from "./audio/meter/worklet.js"
 import {MetronomeWorklet} from "./audio/metronome/worklet.js"
 import {Player} from "./setara/player.js"
+import {GamePlay} from "./setara/game-play.js"
+import {Rules} from "./setara/card.js"
+import {SVGCardFactory} from "./setara/card-design.js"
+import {SoundManager} from "./setara/sounds.js"
 
 const showProgress = (() => {
     const progress: SVGSVGElement = document.querySelector("svg.preloader")
@@ -22,6 +26,8 @@ const showProgress = (() => {
     boot.registerProcess(LimiterWorklet.loadModule(context))
     boot.registerProcess(MeterWorklet.loadModule(context))
     boot.registerProcess(MetronomeWorklet.loadModule(context))
+    const soundManager = new SoundManager()
+    boot.registerProcess(soundManager.load())
     await boot.waitForCompletion()
     // --- BOOT ENDS ---
 
@@ -36,6 +42,10 @@ const showProgress = (() => {
         mainElement.appendChild(gridAreaElement)
         return new Player(gridAreaElement.querySelector("div.player"))
     })
+
+    const gamePlay = new GamePlay(new Rules(), new SVGCardFactory(), soundManager)
+    gamePlay.start()
+
 
     // prevent dragging entire document on mobile
     document.addEventListener('touchmove', (event: TouchEvent) => event.preventDefault(), {passive: false})
