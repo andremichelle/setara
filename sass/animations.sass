@@ -1,5 +1,3 @@
-@import colors
-
 @keyframes bubbles
   0%
     background-position: 200% 0
@@ -9,10 +7,10 @@
 
 @keyframes countdown-flash
   0%
-    background: linear-gradient(to top, rgba(lighten($color2, 50), 0.9), lighten($color2, 35))
+    filter: brightness(150%)
 
   100%
-    background: linear-gradient(to bottom, rgba(lighten($color2, 30), 0.9), lighten($color2, 5))
+    filter: brightness(100%)
 
 @keyframes point-decay-flash
   0%

@@ -166,10 +166,10 @@ svg.preloader > circle.progress {
 }
 @keyframes countdown-flash {
   0% {
-    background: linear-gradient(to top, rgba(255, 255, 255, 0.9), white);
+    filter: brightness(150%);
   }
   100% {
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.9), #f9a1be);
+    filter: brightness(100%);
   }
 }
 @keyframes point-decay-flash {
@@ -361,8 +361,8 @@ main div.player-wrapper div.player > div.display.countdown div span {
   box-shadow: 0.2vmin 0 0.4vmin 0 rgba(0, 0, 0, 0.1);
   position: absolute;
 }
-main div.player-wrapper div.player > div.display.countdown div span.flash {
-  animation: countdown-flash 0.8s linear;
+main div.player-wrapper div.player.countdown-flash > div.display.countdown div {
+  animation: countdown-flash 0.3s ease-out;
 }
 main div.player-wrapper div.player > div.points {
   pointer-events: none;

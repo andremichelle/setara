@@ -97,8 +97,8 @@ main div.player-wrapper
           box-shadow: 0.2vmin 0 0.4vmin 0 rgba(black, 0.1)
           position: absolute
 
-          &.flash
-            animation: countdown-flash 0.8s linear
+    &.countdown-flash > div.display.countdown div
+      animation: countdown-flash 0.3s ease-out
 
     > div.points
       pointer-events: none

@@ -88,9 +88,9 @@ export class Player {
     }
 
     flashCountDown() {
-        this.countdownBar.classList.add("flash")
-        this.countdownBar.addEventListener("animationend", () =>
-            this.countdownBar.classList.remove("flash"))
+        this.element.classList.add("countdown-flash")
+        this.element.addEventListener("animationend", () =>
+            this.element.classList.remove("countdown-flash"))
     }
 
     addScore(points: number): void {
