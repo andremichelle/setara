@@ -30,22 +30,22 @@ export class SoundManager {
         this.map = new Map();
     }
     load() {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this.register(Sound.Appearance, "samples/appearance.wav");
-            yield this.register(Sound.Fly, "samples/fly.wav");
-            yield this.register(Sound.Join, "samples/join.wav");
-            yield this.register(Sound.Docked, "samples/docked.wav");
-            yield this.register(Sound.Click, "samples/click.wav");
-            yield this.register(Sound.Select, "samples/select.wav");
-            yield this.register(Sound.PointDecay, "samples/points-decay.wav");
-            yield this.register(Sound.Scoring, "samples/scoring.wav");
-            yield this.register(Sound.Countdown, "samples/countdown.wav");
-            yield this.register(Sound.Success, "samples/success.wav");
-            yield this.register(Sound.Failure, "samples/failure.wav");
-            yield this.register(Sound.Cancel, "samples/cancel.wav");
-            yield this.register(Sound.Reject, "samples/reject.wav");
-            yield this.register(Sound.GameOver, "samples/gameover.wav");
-        });
+        return [
+            this.register(Sound.Appearance, "samples/appearance.wav"),
+            this.register(Sound.Fly, "samples/fly.wav"),
+            this.register(Sound.Join, "samples/join.wav"),
+            this.register(Sound.Docked, "samples/docked.wav"),
+            this.register(Sound.Click, "samples/click.wav"),
+            this.register(Sound.Select, "samples/select.wav"),
+            this.register(Sound.PointDecay, "samples/points-decay.wav"),
+            this.register(Sound.Scoring, "samples/scoring.wav"),
+            this.register(Sound.Countdown, "samples/countdown.wav"),
+            this.register(Sound.Success, "samples/success.wav"),
+            this.register(Sound.Failure, "samples/failure.wav"),
+            this.register(Sound.Cancel, "samples/cancel.wav"),
+            this.register(Sound.Reject, "samples/reject.wav"),
+            this.register(Sound.GameOver, "samples/gameover.wav")
+        ];
     }
     play(sound) {
         const bufferSource = this.context.createBufferSource();

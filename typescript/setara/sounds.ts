@@ -21,21 +21,23 @@ export class SoundManager {
     constructor(private readonly context: AudioContext) {
     }
 
-    async load(): Promise<void> {
-        await this.register(Sound.Appearance, "samples/appearance.wav")
-        await this.register(Sound.Fly, "samples/fly.wav")
-        await this.register(Sound.Join, "samples/join.wav")
-        await this.register(Sound.Docked, "samples/docked.wav")
-        await this.register(Sound.Click, "samples/click.wav")
-        await this.register(Sound.Select, "samples/select.wav")
-        await this.register(Sound.PointDecay, "samples/points-decay.wav")
-        await this.register(Sound.Scoring, "samples/scoring.wav")
-        await this.register(Sound.Countdown, "samples/countdown.wav")
-        await this.register(Sound.Success, "samples/success.wav")
-        await this.register(Sound.Failure, "samples/failure.wav")
-        await this.register(Sound.Cancel, "samples/cancel.wav")
-        await this.register(Sound.Reject, "samples/reject.wav")
-        await this.register(Sound.GameOver, "samples/gameover.wav")
+    load(): Promise<void>[] {
+        return [
+            this.register(Sound.Appearance, "samples/appearance.wav"),
+            this.register(Sound.Fly, "samples/fly.wav"),
+            this.register(Sound.Join, "samples/join.wav"),
+            this.register(Sound.Docked, "samples/docked.wav"),
+            this.register(Sound.Click, "samples/click.wav"),
+            this.register(Sound.Select, "samples/select.wav"),
+            this.register(Sound.PointDecay, "samples/points-decay.wav"),
+            this.register(Sound.Scoring, "samples/scoring.wav"),
+            this.register(Sound.Countdown, "samples/countdown.wav"),
+            this.register(Sound.Success, "samples/success.wav"),
+            this.register(Sound.Failure, "samples/failure.wav"),
+            this.register(Sound.Cancel, "samples/cancel.wav"),
+            this.register(Sound.Reject, "samples/reject.wav"),
+            this.register(Sound.GameOver, "samples/gameover.wav")
+        ]
     }
 
     play(sound: Sound) {

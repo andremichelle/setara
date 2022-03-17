@@ -20,7 +20,7 @@ const showProgress = (() => {
     boot.registerProcess(preloadImagesOfCssFile("./bin/main.css"))
     const context = newAudioContext()
     const soundManager = new SoundManager(context)
-    boot.registerProcess(soundManager.load())
+    soundManager.load().forEach(promise => boot.registerProcess(promise))
     await boot.waitForCompletion()
     // --- BOOT ENDS ---
 

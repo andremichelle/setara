@@ -25,7 +25,7 @@ const showProgress = (() => {
     boot.registerProcess(preloadImagesOfCssFile("./bin/main.css"));
     const context = newAudioContext();
     const soundManager = new SoundManager(context);
-    boot.registerProcess(soundManager.load());
+    soundManager.load().forEach(promise => boot.registerProcess(promise));
     yield boot.waitForCompletion();
     const orientations = ["top", "left", "right", "bottom"];
     const mainElement = document.querySelector("main div.game");

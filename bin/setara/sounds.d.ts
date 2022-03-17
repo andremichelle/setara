@@ -18,7 +18,7 @@ export declare class SoundManager {
     private readonly context;
     private readonly map;
     constructor(context: AudioContext);
-    load(): Promise<void>;
+    load(): Promise<void>[];
     play(sound: Sound): void;
     private register;
 }
