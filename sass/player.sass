@@ -87,6 +87,7 @@ main div.player-wrapper
         border-radius: 8vmin
         position: absolute
         overflow: hidden
+        transform: translate3d(0, 0, 0)
         background: linear-gradient(to bottom, darken($color2, 10), darken($color2, 25))
         box-shadow: 0 0 1vmin 0 rgba(white, 0.4) inset, 0 0.1vmin 0.2vmin 0 rgba(white, 0.6) inset
 
@@ -109,9 +110,10 @@ main div.player-wrapper
       opacity: 0.5
       color: white
       text-shadow: 0 -2px 1px black, 0 2px 1px black, 2px 0 1px black, -2px 0 1px black
+      transform: translate3d(0, 0, 0)
 
-      > span.flash
-        animation: point-decay-flash 0.3s ease-out
+    &.decay-points > div.points
+      animation: point-decay-flash 0.3s ease-out
 
     > div.crown
       pointer-events: none

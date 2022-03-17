@@ -3,6 +3,13 @@ import {GameRound} from "./game-round.js"
 import {Random} from "../lib/math.js"
 import {Player, PlayerState} from "./player.js"
 
+class GameConstants {
+    static MAX_SCORE = 1000
+    static MIN_SCORE = 100
+    static SCORE_DECAY = 100
+    static SCORE_DECAY_INTERVAL = 1000
+}
+
 class CountDown {
     private running: boolean = true
     private currentSecond: number = 0 | 0
@@ -37,13 +44,6 @@ class CountDown {
     cancel(): void {
         this.running = false
     }
-}
-
-class GameConstants {
-    static MAX_SCORE = 1000
-    static MIN_SCORE = 100
-    static SCORE_DECAY = 100
-    static SCORE_DECAY_INTERVAL = 10000
 }
 
 abstract class GameState {

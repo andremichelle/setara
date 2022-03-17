@@ -76,8 +76,14 @@ export class Player {
     }
     setAvailablePoints(points) {
         this.cardsAvailablePoints.textContent = `${points}`;
-        this.cardsAvailablePoints.classList.add("flash");
-        this.cardsAvailablePoints.addEventListener("animationend", () => this.cardsAvailablePoints.classList.remove("flash"), { once: true });
+        this.element.classList.add("decay-points");
+        const listener = (event) => {
+            if (event.animationName === "point-decay-flash") {
+                this.element.removeEventListener("animationend", listener);
+                this.element.classList.remove("decay-points");
+            }
+        };
+        this.element.addEventListener("animationend", listener);
     }
     setActionName(text) {
         this.button.textContent = text;
@@ -87,7 +93,13 @@ export class Player {
     }
     flashCountDown() {
         this.element.classList.add("countdown-flash");
-        this.element.addEventListener("animationend", () => this.element.classList.remove("countdown-flash"));
+        const listener = (event) => {
+            if (event.animationName === "countdown-flash") {
+                this.element.removeEventListener("animationend", listener);
+                this.element.classList.remove("countdown-flash");
+            }
+        };
+        this.element.addEventListener("animationend", listener);
     }
     addScore(points) {
         this.score += points;

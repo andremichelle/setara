@@ -21,7 +21,6 @@ export class CardDeck {
     constructor(cards) {
         this.cards = cards;
         this.position = 0 | 0;
-        console.log(cards.map(c => c.serialize()));
     }
     static create(numFeatures, numVariations) {
         return new CardDeck(Combinations.withRepetitions(numVariations, numFeatures)

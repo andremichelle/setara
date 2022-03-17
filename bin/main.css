@@ -166,18 +166,18 @@ svg.preloader > circle.progress {
 }
 @keyframes countdown-flash {
   0% {
-    filter: brightness(150%);
+    filter: brightness(150%) blur(8px);
   }
   100% {
-    filter: brightness(100%);
+    filter: brightness(100%) blur(0);
   }
 }
 @keyframes point-decay-flash {
   0% {
-    filter: brightness(200%);
+    filter: brightness(150%) blur(2px);
   }
   100% {
-    filter: brightness(100%);
+    filter: brightness(100%) blur(0);
   }
 }
 @keyframes wobbling {
@@ -351,6 +351,7 @@ main div.player-wrapper div.player > div.display.countdown div {
   border-radius: 8vmin;
   position: absolute;
   overflow: hidden;
+  transform: translate3d(0, 0, 0);
   background: linear-gradient(to bottom, #f4598d, #ef125c);
   box-shadow: 0 0 1vmin 0 rgba(255, 255, 255, 0.4) inset, 0 0.1vmin 0.2vmin 0 rgba(255, 255, 255, 0.6) inset;
 }
@@ -373,8 +374,9 @@ main div.player-wrapper div.player > div.points {
   opacity: 0.5;
   color: white;
   text-shadow: 0 -2px 1px black, 0 2px 1px black, 2px 0 1px black, -2px 0 1px black;
+  transform: translate3d(0, 0, 0);
 }
-main div.player-wrapper div.player > div.points > span.flash {
+main div.player-wrapper div.player.decay-points > div.points {
   animation: point-decay-flash 0.3s ease-out;
 }
 main div.player-wrapper div.player > div.crown {

@@ -40,7 +40,6 @@ export class CardDeck {
     private position: number = 0 | 0
 
     private constructor(private readonly cards: Card[]) {
-        console.log(cards.map(c => c.serialize()))
     }
 
     shuffle(): void {

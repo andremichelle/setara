@@ -10,6 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import { Sound } from "./sounds.js";
 import { GameRound } from "./game-round.js";
 import { PlayerState } from "./player.js";
+class GameConstants {
+}
+GameConstants.MAX_SCORE = 1000;
+GameConstants.MIN_SCORE = 100;
+GameConstants.SCORE_DECAY = 100;
+GameConstants.SCORE_DECAY_INTERVAL = 1000;
 class CountDown {
     constructor(onProgress, onSecond, onComplete, secondsTotal) {
         this.onProgress = onProgress;
@@ -44,12 +50,6 @@ class CountDown {
         this.running = false;
     }
 }
-class GameConstants {
-}
-GameConstants.MAX_SCORE = 1000;
-GameConstants.MIN_SCORE = 100;
-GameConstants.SCORE_DECAY = 100;
-GameConstants.SCORE_DECAY_INTERVAL = 10000;
 class GameState {
     constructor(context) {
         this.context = context;
