@@ -7,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { Sound } from "./sounds.js";
 export var PlayerState;
 (function (PlayerState) {
     PlayerState[PlayerState["WaitingToJoin"] = 0] = "WaitingToJoin";
@@ -21,6 +22,7 @@ export class Player {
         this.gameContext = gameContext;
         this.element = element;
         this.score = 0 | 0;
+        this.displayScore = 0 | 0;
         this.button = element.querySelector("button");
         const clickHandler = (event) => __awaiter(this, void 0, void 0, function* () {
             event.preventDefault();
@@ -112,11 +114,28 @@ export class Player {
         this.score = 0;
     }
     updateScoreLabel() {
-        if (this.score < 0)
-            this.scoreLabel.classList.add("negative");
-        else
-            this.scoreLabel.classList.remove("negative");
-        this.scoreLabel.textContent = `${Math.abs(this.score).toString(10).padStart(5, "0")}`;
+        if (this.displayScore !== this.score) {
+            let exe = true;
+            const animateScore = () => {
+                if (exe) {
+                    this.gameContext.play(Sound.Scoring);
+                    this.displayScore += Math.sign(this.score - this.displayScore) * 20;
+                    if (this.displayScore < 0)
+                        this.scoreLabel.classList.add("negative");
+                    else
+                        this.scoreLabel.classList.remove("negative");
+                    this.scoreLabel.textContent = `${Math.abs(this.displayScore).toString(10).padStart(5, "0")}`;
+                    if (this.displayScore !== this.score) {
+                        requestAnimationFrame(animateScore);
+                    }
+                }
+                else {
+                    requestAnimationFrame(animateScore);
+                }
+                exe = !exe;
+            };
+            animateScore();
+        }
     }
 }
 //# sourceMappingURL=player.js.map

@@ -17,6 +17,7 @@ export declare class Player {
     private readonly cardsAvailablePoints;
     private readonly crown;
     private score;
+    private displayScore;
     constructor(gameContext: GameContext, element: Element);
     setState(state: PlayerState): void;
     setCardsLeft(count: number): void;

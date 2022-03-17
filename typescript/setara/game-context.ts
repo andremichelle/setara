@@ -7,7 +7,7 @@ class GameConstants {
     static MAX_SCORE = 1000
     static MIN_SCORE = 100
     static SCORE_DECAY = 100
-    static SCORE_DECAY_INTERVAL = 1000
+    static SCORE_DECAY_INTERVAL = 10000
 }
 
 class CountDown {

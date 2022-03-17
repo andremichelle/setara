@@ -1,4 +1,5 @@
 import {GameContext} from "./game-context.js"
+import {Sound} from "./sounds.js"
 
 export enum PlayerState {
     WaitingToJoin, RequestingToJoin, Playing, Selecting, Hiding, Winner
@@ -13,6 +14,7 @@ export class Player {
     private readonly crown: HTMLElement
 
     private score: number = 0 | 0
+    private displayScore: number = 0 | 0
 
     constructor(private readonly gameContext: GameContext,
                 private readonly element: Element) {
@@ -119,8 +121,24 @@ export class Player {
     }
 
     private updateScoreLabel() {
-        if (this.score < 0) this.scoreLabel.classList.add("negative")
-        else this.scoreLabel.classList.remove("negative")
-        this.scoreLabel.textContent = `${Math.abs(this.score).toString(10).padStart(5, "0")}`
+        if (this.displayScore !== this.score) {
+            let exe = true
+            const animateScore = () => {
+                if(exe) {
+                    this.gameContext.play(Sound.Scoring)
+                    this.displayScore += Math.sign(this.score - this.displayScore) * 20
+                    if (this.displayScore < 0) this.scoreLabel.classList.add("negative")
+                    else this.scoreLabel.classList.remove("negative")
+                    this.scoreLabel.textContent = `${Math.abs(this.displayScore).toString(10).padStart(5, "0")}`
+                    if (this.displayScore !== this.score) {
+                        requestAnimationFrame(animateScore)
+                    }
+                } else {
+                    requestAnimationFrame(animateScore)
+                }
+                exe = !exe
+            }
+            animateScore()
+        }
     }
 }

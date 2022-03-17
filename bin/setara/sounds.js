@@ -16,12 +16,13 @@ export var Sound;
     Sound[Sound["Click"] = 4] = "Click";
     Sound[Sound["Select"] = 5] = "Select";
     Sound[Sound["PointDecay"] = 6] = "PointDecay";
-    Sound[Sound["Countdown"] = 7] = "Countdown";
-    Sound[Sound["Success"] = 8] = "Success";
-    Sound[Sound["Failure"] = 9] = "Failure";
-    Sound[Sound["Cancel"] = 10] = "Cancel";
-    Sound[Sound["Reject"] = 11] = "Reject";
-    Sound[Sound["GameOver"] = 12] = "GameOver";
+    Sound[Sound["Scoring"] = 7] = "Scoring";
+    Sound[Sound["Countdown"] = 8] = "Countdown";
+    Sound[Sound["Success"] = 9] = "Success";
+    Sound[Sound["Failure"] = 10] = "Failure";
+    Sound[Sound["Cancel"] = 11] = "Cancel";
+    Sound[Sound["Reject"] = 12] = "Reject";
+    Sound[Sound["GameOver"] = 13] = "GameOver";
 })(Sound || (Sound = {}));
 export class SoundManager {
     constructor(context) {
@@ -37,6 +38,7 @@ export class SoundManager {
             yield this.register(Sound.Click, "samples/click.wav");
             yield this.register(Sound.Select, "samples/select.wav");
             yield this.register(Sound.PointDecay, "samples/points-decay.wav");
+            yield this.register(Sound.Scoring, "samples/scoring.wav");
             yield this.register(Sound.Countdown, "samples/countdown.wav");
             yield this.register(Sound.Success, "samples/success.wav");
             yield this.register(Sound.Failure, "samples/failure.wav");
