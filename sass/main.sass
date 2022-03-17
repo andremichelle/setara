@@ -7,6 +7,37 @@
   font-family: 'Super Mario 256'
   src: url('../fonts/sm.ttf')
 
+@mixin button-menu($color)
+  border: none
+  outline: none
+  appearance: none
+  border-radius: 4vmin
+  padding: 1.2vmin 0 0.6vmin 0
+  width: 100%
+  color: rgba(white, 0.8)
+  letter-spacing: 0.4vmin
+  font-family: inherit
+  font-size: 4vmin
+  background: linear-gradient(to bottom, darken($color, 1), darken($color, 20))
+  box-shadow: 0 1px 1px 0 rgba(white, 0.4) inset, 0 -1px 1px 0 rgba(black, 0.2) inset, 0 0.5vmin 0.5vmin 0 rgba(black, 0.2)
+  pointer-events: all
+  cursor: pointer
+  @include shadow(darken($color, 10), 7, 4)
+
+  &.active
+    color: rgba(white, 0.6)
+    background: linear-gradient(to top, $color, darken($color, 20))
+    box-shadow: 0 -0.1vmin 0.2vmin 0 rgba(white, 0.6) inset, 0 0.2vmin 0.4vmin 0 rgba(black, 0.4) inset
+    @include shadow(darken($color, 10), 5, 6)
+
+  &.disabled
+    opacity: 0.2
+    color: $color
+    background: linear-gradient(to top, darken($color, 1), darken($color, 20))
+    box-shadow: 0 -0.4vmin 0.8vmin 0 rgba(white, 0.6) inset, 0 0.4vmin 0.8vmin 0 rgba(black, 0.3) inset
+    @include shadow(darken($color, 10), 5, 6)
+    pointer-events: none
+
 \:root
   --card-size: 0vmin
   --card-gap: 1vmin
@@ -32,7 +63,7 @@ main
     background: url("../background-pattern.jpeg")
     mix-blend-mode: screen
     pointer-events: none
-    //animation: bubbles infinite 240s linear
+  //animation: bubbles infinite 240s linear
 
   > .game
     top: 0
@@ -55,6 +86,40 @@ main
       display: flex
       align-items: center
       justify-content: center
+
+      > div.menu
+        top: 50%
+        left: 50%
+        width: 36vmin
+        border-radius: 5vmin
+        transform: translate(-50%, -50%)
+        background: linear-gradient(to top, rgba($color1, 0.8), rgba($color1, 0.6))
+        box-shadow: 0 1vmin 1vmin 0 rgba(white, 0.5) inset, 0 -1vmin 1vmin 0 rgba(black, 0.25) inset
+        position: absolute
+        align-items: center
+        display: flex
+        flex-direction: column
+        row-gap: 2vmin
+        padding: 4vmin
+
+        > h1
+          color: lighten($color2, 8)
+          margin: 3vmin 0
+          font-size: 6vmin
+          text-align: center
+          letter-spacing: 0.8vmin
+          @include shadow(lighten($color2, 40), 7, 7)
+
+        > button.menu-button
+          @include button-menu($color2)
+
+          &.manual
+            margin: 0 0 3vmin 0
+            @include button-menu($color1)
+
+          &.start
+            margin: 3vmin 0 0 0
+            @include button-menu($color4)
 
       > button.action-button
         width: 20vmin

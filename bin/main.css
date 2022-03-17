@@ -584,6 +584,124 @@ main > .game > .play-field {
   align-items: center;
   justify-content: center;
 }
+main > .game > .play-field > div.menu {
+  top: 50%;
+  left: 50%;
+  width: 36vmin;
+  border-radius: 5vmin;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(to top, rgba(121, 88, 172, 0.8), rgba(121, 88, 172, 0.6));
+  box-shadow: 0 1vmin 1vmin 0 rgba(255, 255, 255, 0.5) inset, 0 -1vmin 1vmin 0 rgba(0, 0, 0, 0.25) inset;
+  position: absolute;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  row-gap: 2vmin;
+  padding: 4vmin;
+}
+main > .game > .play-field > div.menu > h1 {
+  color: #faafc8;
+  margin: 3vmin 0;
+  font-size: 6vmin;
+  text-align: center;
+  letter-spacing: 0.8vmin;
+  text-shadow: 0 0.125vmin 0 #fddee8, 0 0.25vmin 0 #fabcd1, 0 0.375vmin 0 #f89bba, 0 0.5vmin 0 #f679a3, 0 0.625vmin 0 #f4588c, 0 0.75vmin 0 #f13675, 0 0.875vmin 0 #ef155e;
+}
+main > .game > .play-field > div.menu > button.menu-button {
+  border: none;
+  outline: none;
+  appearance: none;
+  border-radius: 4vmin;
+  padding: 1.2vmin 0 0.6vmin 0;
+  width: 100%;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.4vmin;
+  font-family: inherit;
+  font-size: 4vmin;
+  background: linear-gradient(to bottom, #f784ab, #f1296c);
+  box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset, 0 -1px 1px 0 rgba(0, 0, 0, 0.2) inset, 0 0.5vmin 0.5vmin 0 rgba(0, 0, 0, 0.2);
+  pointer-events: all;
+  cursor: pointer;
+  text-shadow: 0 0.125vmin 0 #f24680, 0 0.25vmin 0 #f13373, 0 0.375vmin 0 #f02066, 0 0.5vmin 0 #eb105a, 0 0.625vmin 0 #d80f53, 0 0.75vmin 0 #c50d4b, 0 0.875vmin 0 #b20c44;
+}
+main > .game > .play-field > div.menu > button.menu-button.active {
+  color: rgba(255, 255, 255, 0.6);
+  background: linear-gradient(to top, #F789AE, #f1296c);
+  box-shadow: 0 -0.1vmin 0.2vmin 0 rgba(255, 255, 255, 0.6) inset, 0 0.2vmin 0.4vmin 0 rgba(0, 0, 0, 0.4) inset;
+  text-shadow: 0 0.125vmin 0 #f23d7a, 0 0.25vmin 0 #f02066, 0 0.375vmin 0 #e20f56, 0 0.5vmin 0 #c50d4b, 0 0.625vmin 0 #a90b40;
+}
+main > .game > .play-field > div.menu > button.menu-button.disabled {
+  opacity: 0.2;
+  color: #F789AE;
+  background: linear-gradient(to top, #f784ab, #f1296c);
+  box-shadow: 0 -0.4vmin 0.8vmin 0 rgba(255, 255, 255, 0.6) inset, 0 0.4vmin 0.8vmin 0 rgba(0, 0, 0, 0.3) inset;
+  text-shadow: 0 0.125vmin 0 #f23d7a, 0 0.25vmin 0 #f02066, 0 0.375vmin 0 #e20f56, 0 0.5vmin 0 #c50d4b, 0 0.625vmin 0 #a90b40;
+  pointer-events: none;
+}
+main > .game > .play-field > div.menu > button.menu-button.manual {
+  margin: 0 0 3vmin 0;
+  border: none;
+  outline: none;
+  appearance: none;
+  border-radius: 4vmin;
+  padding: 1.2vmin 0 0.6vmin 0;
+  width: 100%;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.4vmin;
+  font-family: inherit;
+  font-size: 4vmin;
+  background: linear-gradient(to bottom, #7655aa, #49346a);
+  box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset, 0 -1px 1px 0 rgba(0, 0, 0, 0.2) inset, 0 0.5vmin 0.5vmin 0 rgba(0, 0, 0, 0.2);
+  pointer-events: all;
+  cursor: pointer;
+  text-shadow: 0 0.125vmin 0 #583f7e, 0 0.25vmin 0 #4e3870, 0 0.375vmin 0 #453163, 0 0.5vmin 0 #3b2a55, 0 0.625vmin 0 #322447, 0 0.75vmin 0 #281d3a, 0 0.875vmin 0 #1f162c;
+}
+main > .game > .play-field > div.menu > button.menu-button.manual.active {
+  color: rgba(255, 255, 255, 0.6);
+  background: linear-gradient(to top, #7958AC, #49346a);
+  box-shadow: 0 -0.1vmin 0.2vmin 0 rgba(255, 255, 255, 0.6) inset, 0 0.2vmin 0.4vmin 0 rgba(0, 0, 0, 0.4) inset;
+  text-shadow: 0 0.125vmin 0 #533b77, 0 0.25vmin 0 #453163, 0 0.375vmin 0 #36274e, 0 0.5vmin 0 #281d3a, 0 0.625vmin 0 #1a1325;
+}
+main > .game > .play-field > div.menu > button.menu-button.manual.disabled {
+  opacity: 0.2;
+  color: #7958AC;
+  background: linear-gradient(to top, #7655aa, #49346a);
+  box-shadow: 0 -0.4vmin 0.8vmin 0 rgba(255, 255, 255, 0.6) inset, 0 0.4vmin 0.8vmin 0 rgba(0, 0, 0, 0.3) inset;
+  text-shadow: 0 0.125vmin 0 #533b77, 0 0.25vmin 0 #453163, 0 0.375vmin 0 #36274e, 0 0.5vmin 0 #281d3a, 0 0.625vmin 0 #1a1325;
+  pointer-events: none;
+}
+main > .game > .play-field > div.menu > button.menu-button.start {
+  margin: 3vmin 0 0 0;
+  border: none;
+  outline: none;
+  appearance: none;
+  border-radius: 4vmin;
+  padding: 1.2vmin 0 0.6vmin 0;
+  width: 100%;
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.4vmin;
+  font-family: inherit;
+  font-size: 4vmin;
+  background: linear-gradient(to bottom, #45e2d9, #1aaca3);
+  box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset, 0 -1px 1px 0 rgba(0, 0, 0, 0.2) inset, 0 0.5vmin 0.5vmin 0 rgba(0, 0, 0, 0.2);
+  pointer-events: all;
+  cursor: pointer;
+  text-shadow: 0 0.125vmin 0 #1ec6bc, 0 0.25vmin 0 #1cb4ac, 0 0.375vmin 0 #19a39b, 0 0.5vmin 0 #16918a, 0 0.625vmin 0 #147f79, 0 0.75vmin 0 #116e68, 0 0.875vmin 0 #0e5c57;
+}
+main > .game > .play-field > div.menu > button.menu-button.start.active {
+  color: rgba(255, 255, 255, 0.6);
+  background: linear-gradient(to top, #49E3DA, #1aaca3);
+  box-shadow: 0 -0.1vmin 0.2vmin 0 rgba(255, 255, 255, 0.6) inset, 0 0.2vmin 0.4vmin 0 rgba(0, 0, 0, 0.4) inset;
+  text-shadow: 0 0.125vmin 0 #1dbdb4, 0 0.25vmin 0 #19a39b, 0 0.375vmin 0 #158882, 0 0.5vmin 0 #116e68, 0 0.625vmin 0 #0d534f;
+}
+main > .game > .play-field > div.menu > button.menu-button.start.disabled {
+  opacity: 0.2;
+  color: #49E3DA;
+  background: linear-gradient(to top, #45e2d9, #1aaca3);
+  box-shadow: 0 -0.4vmin 0.8vmin 0 rgba(255, 255, 255, 0.6) inset, 0 0.4vmin 0.8vmin 0 rgba(0, 0, 0, 0.3) inset;
+  text-shadow: 0 0.125vmin 0 #1dbdb4, 0 0.25vmin 0 #19a39b, 0 0.375vmin 0 #158882, 0 0.5vmin 0 #116e68, 0 0.625vmin 0 #0d534f;
+  pointer-events: none;
+}
 main > .game > .play-field > button.action-button {
   width: 20vmin;
   height: 20vmin;

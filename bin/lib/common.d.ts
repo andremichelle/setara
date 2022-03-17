@@ -150,3 +150,8 @@ export declare class Waiting {
     static forEvent(element: Element, type: string): Promise<void>;
     private static forEvents;
 }
+export declare class Events {
+    static preventDefault: (event: any) => any;
+    static toPromise<E extends Event>(target: EventTarget, type: string): Promise<E>;
+    static bindEventListener(target: EventTarget, type: string, listener: EventListenerOrEventListenerObject, options?: AddEventListenerOptions): Terminable;
+}

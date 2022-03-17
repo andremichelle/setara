@@ -510,3 +510,19 @@ export class Waiting {
             }))
     }
 }
+
+export class Events {
+    static preventDefault = event => event.preventDefault()
+
+    static async toPromise<E extends Event>(target: EventTarget, type: string): Promise<E> {
+        return new Promise<E>(resolve => target
+            .addEventListener(type, (event: E) => resolve(event), {once: true}))
+    }
+
+    static bindEventListener(target: EventTarget,
+                             type: string, listener: EventListenerOrEventListenerObject,
+                             options?: AddEventListenerOptions): Terminable {
+        target.addEventListener(type, listener, options)
+        return {terminate: () => target.removeEventListener(type, listener, options)}
+    }
+}
