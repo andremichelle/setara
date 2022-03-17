@@ -1,7 +1,7 @@
 import { createElement } from "../lib/svg.js";
 import { Card } from "./card.js";
 export class SVGCardFactory {
-    constructor(numVariations = 3, padding = 0.1) {
+    constructor(numVariations = 3, padding = 0.08) {
         this.numVariations = numVariations;
         this.padding = padding;
         this.width = 66.0;

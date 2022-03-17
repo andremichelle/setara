@@ -15,7 +15,7 @@ export class SVGCardFactory implements Terminable {
     private readonly centerY: Float32Array[]
     private readonly size
 
-    constructor(readonly numVariations: number = 3, readonly padding: number = 0.1) {
+    constructor(readonly numVariations: number = 3, readonly padding: number = 0.08) {
         console.assert(0.0 <= padding && padding < 1.0, "padding is in percentage of height (0..1)")
         console.assert(3 <= numVariations, "numVariations must be less or equal three.")
 
