@@ -6,12 +6,13 @@ export declare enum Sound {
     Click = 4,
     Select = 5,
     PointDecay = 6,
-    Countdown = 7,
-    Success = 8,
-    Failure = 9,
-    Cancel = 10,
-    Reject = 11,
-    GameOver = 12
+    Scoring = 7,
+    Countdown = 8,
+    Success = 9,
+    Failure = 10,
+    Cancel = 11,
+    Reject = 12,
+    GameOver = 13
 }
 export declare class SoundManager {
     private readonly context;

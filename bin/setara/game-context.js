@@ -15,7 +15,7 @@ class GameConstants {
 GameConstants.MAX_SCORE = 1000;
 GameConstants.MIN_SCORE = 100;
 GameConstants.SCORE_DECAY = 100;
-GameConstants.SCORE_DECAY_INTERVAL = 1000;
+GameConstants.SCORE_DECAY_INTERVAL = 10000;
 class CountDown {
     constructor(onProgress, onSecond, onComplete, secondsTotal) {
         this.onProgress = onProgress;
