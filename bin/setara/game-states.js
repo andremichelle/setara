@@ -28,6 +28,7 @@ export class GameWaitForPlayersState extends GameState {
         });
         this.menu = document.querySelector("div.menu.start");
         this.menu.classList.remove("hidden");
+        this.manual = document.querySelector("div.menu.manual");
         this.buttonManual = this.menu.querySelector("button.menu-button.manual");
         this.buttonNormal = this.menu.querySelector("button.menu-button.normal");
         this.buttonExpert = this.menu.querySelector("button.menu-button.expert");
@@ -35,7 +36,12 @@ export class GameWaitForPlayersState extends GameState {
         this.buttonStart.classList.add("disabled");
         this.terminator.with(Events.bindEventListener(this.buttonManual, "click", event => {
             event.preventDefault();
-            this.context.play(Sound.Reject);
+            this.menu.classList.add("hidden");
+            this.manual.classList.remove("hidden");
+            this.manual.querySelector("button").addEventListener("click", () => {
+                this.menu.classList.remove("hidden");
+                this.manual.classList.add("hidden");
+            }, { once: true });
         }));
         this.terminator.with(Events.bindEventListener(this.buttonNormal, "click", event => {
             event.preventDefault();

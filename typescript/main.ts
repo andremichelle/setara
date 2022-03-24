@@ -39,7 +39,6 @@ const showProgress = (() => {
             })
         }
     }
-
     window["doNotGc"] = new GameContext(soundManager, new Mulberry32(), playerFactory)
 
     // prevent dragging entire document on mobile

@@ -104,22 +104,33 @@ main
 
         > h1
           color: lighten($color2, 8)
-          margin: 3vmin 0
+          margin: 2vmin 0
           font-size: 6vmin
           text-align: center
           letter-spacing: 0.8vmin
           @include shadow(lighten($color2, 40), 7, 7)
 
-        > button.menu-button
-          @include button-menu($color2)
+        &.start
+          > button.menu-button
+            @include button-menu($color2)
 
-          &.manual
-            margin: 0 0 3vmin 0
-            @include button-menu($color1)
+            &.manual
+              margin: 0 0 3vmin 0
+              @include button-menu($color1)
 
-          &.start
-            margin: 3vmin 0 0 0
-            @include button-menu($color4)
+            &.start
+              margin: 3vmin 0 0 0
+              @include button-menu($color4)
+
+        &.manual
+          p
+            margin: 0
+            padding: 0
+            font-family: Verdana, sans-serif
+            font-size: 2vmin
+            
+          button
+            @include button-menu($color2)
 
       > div.cards
         margin: auto
