@@ -138,7 +138,7 @@ export class GameRound {
                             }
                         }
                         if (!ready) {
-                            console.log(`GAME OVER available: ${this.cardDeck.available()}, onTable: ${this.dealtCards()}`)
+                            console.debug(`GAME OVER available: ${this.cardDeck.available()}, onTable: ${this.dealtCards()}`)
                             this.gameOver = true
                             this.acceptUserInput = false
                             this.running = false

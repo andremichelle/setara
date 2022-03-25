@@ -16,6 +16,7 @@ export declare class GameWaitForPlayersState extends GameState {
     private readonly buttonNormal;
     private readonly buttonExpert;
     private readonly buttonStart;
+    private manual;
     constructor(context: GameContext);
     executePlayerAction(player: Player): Promise<void>;
     terminate(): void;
