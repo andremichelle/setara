@@ -38,14 +38,14 @@
             <div class="bubbles" style="background-size: 50vmin; animation-duration: 180s;"></div>
             <div class="cards"></div>
             <div class="menu start hidden">
-                <h1>SETARA</h1>
+                <h1>SET</h1>
                 <button class="menu-button manual">How to?</button>
                 <button class="menu-button normal active">Normal</button>
                 <button class="menu-button expert">Expert</button>
                 <button class="menu-button start disabled">Start</button>
             </div>
             <div class="menu manual hidden">
-                <h1>SETARA</h1>
+                <h1>SET</h1>
                 <p>Find three cards that follow the rules. For each feature (color, count, fill or shape) applies, to
                     find three cards that either have the <span>same</span> or all <span>different</span> property. Rule
                     of thumb is, if you count 2 of something, it is not a match!</p>
@@ -53,7 +53,7 @@
             </div>
             <div class="menu start-over hidden">
                 <h1>Game Over</h1>
-                <button class="menu-button start">again</button>
+                <button class="menu-button restart">again</button>
             </div>
         </div>
         <div class="player-wrapper template">
@@ -62,10 +62,9 @@
                     <div><span></span></div>
                 </div>
                 <button>Join</button>
-                <div class="display score"><span>00000</span></div>
+                <div class="display score"><span>0</span></div>
                 <div class="points">
-                    <span data-info="cards-left">99</span> cards left・<span data-info="available-points">100</span>
-                    points to get
+                    <span data-info="cards-left">99</span> cards left
                 </div>
                 <div class="crown">
                     <svg>
@@ -76,7 +75,7 @@
         </div>
     </div>
 </main>
-<span class="version">v0.41</span>
+<span class="version">v0.5</span>
 <svg class="preloader" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
     <circle r="7" cx="10" cy="10" fill="none" stroke-width="5"></circle>
     <circle r="7" cx="10" cy="10" fill="none" stroke-width="5" class="progress"></circle>

@@ -326,7 +326,7 @@ main div.player-wrapper div.player > div.display {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 13vmin;
+  width: 11vmin;
   height: 4vmin;
   border-radius: 4vmin;
   box-shadow: 0 -1px 1px 0 rgba(255, 255, 255, 0.6) inset, 0 1px 1px 0 rgba(0, 0, 0, 0.2) inset;
@@ -534,6 +534,10 @@ svg.card * {
   font-family: "Super Mario 256";
   src: url("../fonts/sm.ttf");
 }
+* {
+  pointer-events: none;
+}
+
 :root {
   --card-size: 0vmin;
   --card-gap: 1vmin;

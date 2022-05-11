@@ -1,8 +1,8 @@
+import {Option, Options, Terminable, Waiting} from "../lib/common.js"
+import {Random} from "../lib/math.js"
+import {SVGCardFactory} from "./card-design.js"
 import {Card, CardDeck, Rules} from "./card.js"
 import {Sound, SoundManager} from "./sounds.js"
-import {Random} from "../lib/math.js"
-import {Option, Options, Waiting} from "../lib/common.js"
-import {SVGCardFactory} from "./card-design.js"
 
 class Turn {
     constructor(readonly onSelectionComplete: (isSet: boolean) => void,
@@ -20,6 +20,7 @@ export class GameRound {
     private readonly rows: HTMLElement[] = []
     private readonly map: Map<HTMLElement, Card> = new Map()
     private readonly selection: Card[] = []
+    private readonly userInteraction: Terminable
 
     private turn: Option<Turn> = Options.None
 
@@ -47,7 +48,7 @@ export class GameRound {
         this.cardDeck.shuffle()
 
         this.watchResize()
-        this.installUserInput()
+        this.userInteraction = this.installUserInput()
     }
 
     async start(): Promise<void> {
@@ -142,6 +143,7 @@ export class GameRound {
                             this.gameOver = true
                             this.acceptUserInput = false
                             this.running = false
+                            this.userInteraction.terminate()
                         }
                     }
                 } else {
@@ -301,7 +303,7 @@ export class GameRound {
         requestAnimationFrame(watchResize)
     }
 
-    private installUserInput(): void {
+    private installUserInput(): Terminable {
         const click = async (event: Event) => {
             event.preventDefault()
             if (!this.acceptUserInput) return
@@ -319,7 +321,7 @@ export class GameRound {
         this.rootElement.addEventListener("touchstart", click)
 
         let timeoutId: number = -1
-        window.addEventListener("keydown", async (event: KeyboardEvent) => {
+        let keyListener = async (event: KeyboardEvent) => {
             if (!this.acceptUserInput) return
             if (event.code === "Escape") {
                 event.preventDefault()
@@ -342,6 +344,14 @@ export class GameRound {
                 }
                 this.acceptUserInput = true
             }
-        })
+        }
+        window.addEventListener("keydown", keyListener)
+        return {
+            terminate: () => {
+                window.removeEventListener("keydown", keyListener)
+                this.rootElement.removeEventListener("mousedown", click)
+                this.rootElement.removeEventListener("touchstart", click)
+            }
+        }
     }
 }

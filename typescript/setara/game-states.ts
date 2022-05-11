@@ -1,8 +1,8 @@
 import {Events, Terminable, Terminator} from "../lib/common.js"
+import {GameContext, GameDifficulty} from "./game-context.js"
+import {GameRound} from "./game-round.js"
 import {Player, PlayerState} from "./player.js"
 import {Sound} from "./sounds.js"
-import {GameRound} from "./game-round.js"
-import {GameConstants, GameContext, GameDifficulty} from "./game-context.js"
 
 export abstract class GameState implements Terminable {
     protected constructor(protected readonly context: GameContext) {
@@ -30,7 +30,6 @@ export class GameWaitForPlayersState extends GameState {
 
         context.forEachPlayer(player => {
             player.setState(PlayerState.WaitingToJoin)
-            player.setAvailablePoints(GameConstants.MAX_SCORE)
             player.setActionName("play")
         })
 
@@ -57,12 +56,15 @@ export class GameWaitForPlayersState extends GameState {
             event.preventDefault()
             this.context.play(Sound.Click)
             this.context.difficulty.set(GameDifficulty.Normal)
+            this.context.forEachPlayer(player => player.setCardsLeft(this.context.getCardsAvailable()))
         }))
         this.terminator.with(Events.bindEventListener(this.buttonExpert, "click", event => {
             event.preventDefault()
             this.context.play(Sound.Click)
             this.context.difficulty.set(GameDifficulty.Expert)
+            this.context.forEachPlayer(player => player.setCardsLeft(this.context.getCardsAvailable()))
         }))
+        this.context.forEachPlayer(player => player.setCardsLeft(this.context.getCardsAvailable()))
         this.terminator.with(this.context.difficulty.addObserver(difficulty => {
             if (difficulty === GameDifficulty.Normal) {
                 this.buttonNormal.classList.add("active")
@@ -134,50 +136,26 @@ export class GameStartState extends GameState {
 }
 
 export class GameSearchState extends GameState {
-    private points: number = GameConstants.MAX_SCORE
-    private interval: number = -1
 
     constructor(context: GameContext,
                 private readonly gameRound: GameRound,
                 private readonly players: Player[]) {
         super(context)
 
-        this.interval = setInterval(this.decreasePoints, GameConstants.SCORE_DECAY_INTERVAL)
-
-        context.forEachPlayer(player => {
-            player.setCardsLeft(gameRound.available())
-            player.setAvailablePoints(this.points)
-        })
+        context.forEachPlayer(player => player.setCardsLeft(gameRound.available()))
     }
 
     async executePlayerAction(player: Player): Promise<void> {
-        if (-1 !== this.interval) {
-            clearInterval(this.interval)
-            this.interval = -1
-        }
-        this.context.switchState(new GameSelectionState(this.context, this.gameRound, this.players, player, this.points))
+        this.context.switchState(new GameSelectionState(this.context, this.gameRound, this.players, player))
         return Promise.resolve()
     }
 
     terminate(): void {
-        clearInterval(this.interval)
-    }
-
-    private decreasePoints = (): void => {
-        this.context.play(Sound.PointDecay)
-        if (this.points > GameConstants.MIN_SCORE) {
-            this.points -= GameConstants.SCORE_DECAY
-            this.context.forEachPlayer(player => player.setAvailablePoints(this.points))
-        } else if (-1 !== this.interval) {
-            clearInterval(this.interval)
-            this.interval = -1
-            this.gameRound.showHint()
-        }
     }
 }
 
 export class GameSelectionState extends GameState {
-    constructor(context: GameContext, gameRound: GameRound, players: Player[], player: Player, possibleScore: number) {
+    constructor(context: GameContext, gameRound: GameRound, players: Player[], player: Player) {
         super(context)
 
         this.context.play(Sound.Select)
@@ -194,7 +172,7 @@ export class GameSelectionState extends GameState {
                 },
                 () => {
                     gameRound.cancelTurn()
-                    player.addScore(-possibleScore)
+                    player.addScore(-1)
                 }, 5)
             countDown.start()
 
@@ -202,9 +180,9 @@ export class GameSelectionState extends GameState {
                 countDown.cancel()
                 player.setCountDown(0.0)
                 if (isSet) {
-                    player.addScore(possibleScore)
+                    player.addScore(1)
                 } else {
-                    player.addScore(-possibleScore)
+                    player.addScore(-1)
                 }
             })
             player.setState(PlayerState.Playing)
@@ -235,11 +213,11 @@ export class GameOverState extends GameState {
         const winner = context.getWinner()
         winner.setState(PlayerState.Winner)
         this.context.play(Sound.GameOver)
-        this.context.forEachPlayer(player => player.setState(PlayerState.Hiding), [winner])
 
         const menu = document.querySelector("div.menu.start-over")
         menu.classList.remove("hidden")
-        this.subscription = Events.bindEventListener(menu.querySelector("button.menu-button.start"), "click", (event: Event) => {
+        const button = menu.querySelector("button.menu-button.restart")
+        this.subscription = Events.bindEventListener(button, "click", (event: Event) => {
             event.preventDefault()
             menu.classList.add("hidden")
             this.startOver()

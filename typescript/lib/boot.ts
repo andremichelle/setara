@@ -99,10 +99,10 @@ export const newAudioContext = (options: AudioContextOptions = {
                 } catch (e) {
                     return
                 }
-                window.removeEventListener("mousedown", resume, eventOptions)
-                window.removeEventListener("touchstart", resume, eventOptions)
-                window.removeEventListener("keydown", resume, eventOptions)
             }
+            window.removeEventListener("mousedown", resume, eventOptions)
+            window.removeEventListener("touchstart", resume, eventOptions)
+            window.removeEventListener("keydown", resume, eventOptions)
         }
         window.addEventListener("mousedown", resume, eventOptions)
         window.addEventListener("touchstart", resume, eventOptions)

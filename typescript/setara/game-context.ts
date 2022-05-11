@@ -1,16 +1,9 @@
-import {Sound, SoundManager} from "./sounds.js"
-import {GameRound} from "./game-round.js"
-import {Random} from "../lib/math.js"
-import {Player} from "./player.js"
 import {ObservableValue, ObservableValueImpl} from "../lib/common.js"
+import {Random} from "../lib/math.js"
+import {GameRound} from "./game-round.js"
 import {GameState, GameWaitForPlayersState} from "./game-states.js"
-
-export class GameConstants {
-    static MAX_SCORE = 1000
-    static MIN_SCORE = 100
-    static SCORE_DECAY = 100
-    static SCORE_DECAY_INTERVAL = 10000
-}
+import {Player} from "./player.js"
+import {Sound, SoundManager} from "./sounds.js"
 
 export enum GameDifficulty {
     Normal, Expert
@@ -59,6 +52,10 @@ export class GameContext {
 
     getWinner(): Player {
         return this.players.slice().sort((a: Player, b: Player) => b.getScore() - a.getScore())[0]
+    }
+
+    getCardsAvailable(): number {
+        return this.difficulty.get() === GameDifficulty.Normal ? Math.pow(3, 4) : Math.pow(4, 4)
     }
 
     switchState(state: GameState): void {
