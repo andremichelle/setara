@@ -7,10 +7,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { CardDeck, Rules } from "./card.js";
-import { Sound } from "./sounds.js";
 import { Options, Waiting } from "../lib/common.js";
 import { SVGCardFactory } from "./card-design.js";
+import { CardDeck, Rules } from "./card.js";
+import { Sound } from "./sounds.js";
 class Turn {
     constructor(onSelectionComplete, onTurnComplete) {
         this.onSelectionComplete = onSelectionComplete;
@@ -43,7 +43,7 @@ export class GameRound {
         }
         this.cardDeck.shuffle();
         this.watchResize();
-        this.installUserInput();
+        this.userInteraction = this.installUserInput();
     }
     start() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -140,6 +140,7 @@ export class GameRound {
                                 this.gameOver = true;
                                 this.acceptUserInput = false;
                                 this.running = false;
+                                this.userInteraction.terminate();
                             }
                         }
                     }
@@ -313,7 +314,7 @@ export class GameRound {
         this.rootElement.addEventListener("mousedown", click);
         this.rootElement.addEventListener("touchstart", click);
         let timeoutId = -1;
-        window.addEventListener("keydown", (event) => __awaiter(this, void 0, void 0, function* () {
+        let keyListener = (event) => __awaiter(this, void 0, void 0, function* () {
             if (!this.acceptUserInput)
                 return;
             if (event.code === "Escape") {
@@ -340,7 +341,15 @@ export class GameRound {
                 }
                 this.acceptUserInput = true;
             }
-        }));
+        });
+        window.addEventListener("keydown", keyListener);
+        return {
+            terminate: () => {
+                window.removeEventListener("keydown", keyListener);
+                this.rootElement.removeEventListener("mousedown", click);
+                this.rootElement.removeEventListener("touchstart", click);
+            }
+        };
     }
 }
 //# sourceMappingURL=game-round.js.map

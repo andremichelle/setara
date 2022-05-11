@@ -1,5 +1,5 @@
-import { SoundManager } from "./sounds.js";
 import { Random } from "../lib/math.js";
+import { SoundManager } from "./sounds.js";
 export declare class GameRound {
     private readonly soundManager;
     private readonly random;
@@ -11,6 +11,7 @@ export declare class GameRound {
     private readonly rows;
     private readonly map;
     private readonly selection;
+    private readonly userInteraction;
     private turn;
     private started;
     private acceptUserInput;

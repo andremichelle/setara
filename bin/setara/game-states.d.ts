@@ -1,7 +1,7 @@
 import { Terminable } from "../lib/common.js";
-import { Player } from "./player.js";
-import { GameRound } from "./game-round.js";
 import { GameContext } from "./game-context.js";
+import { GameRound } from "./game-round.js";
+import { Player } from "./player.js";
 export declare abstract class GameState implements Terminable {
     protected readonly context: GameContext;
     protected constructor(context: GameContext);
@@ -29,15 +29,12 @@ export declare class GameStartState extends GameState {
 export declare class GameSearchState extends GameState {
     private readonly gameRound;
     private readonly players;
-    private points;
-    private interval;
     constructor(context: GameContext, gameRound: GameRound, players: Player[]);
     executePlayerAction(player: Player): Promise<void>;
     terminate(): void;
-    private decreasePoints;
 }
 export declare class GameSelectionState extends GameState {
-    constructor(context: GameContext, gameRound: GameRound, players: Player[], player: Player, possibleScore: number);
+    constructor(context: GameContext, gameRound: GameRound, players: Player[], player: Player);
     executePlayerAction(player: Player): Promise<void>;
     terminate(): void;
 }

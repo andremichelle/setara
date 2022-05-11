@@ -1,12 +1,6 @@
-import { GameRound } from "./game-round.js";
 import { ObservableValueImpl } from "../lib/common.js";
+import { GameRound } from "./game-round.js";
 import { GameWaitForPlayersState } from "./game-states.js";
-export class GameConstants {
-}
-GameConstants.MAX_SCORE = 1000;
-GameConstants.MIN_SCORE = 100;
-GameConstants.SCORE_DECAY = 100;
-GameConstants.SCORE_DECAY_INTERVAL = 10000;
 export var GameDifficulty;
 (function (GameDifficulty) {
     GameDifficulty[GameDifficulty["Normal"] = 0] = "Normal";
@@ -46,6 +40,9 @@ export class GameContext {
     }
     getWinner() {
         return this.players.slice().sort((a, b) => b.getScore() - a.getScore())[0];
+    }
+    getCardsAvailable() {
+        return this.difficulty.get() === GameDifficulty.Normal ? Math.pow(3, 4) : Math.pow(4, 4);
     }
     switchState(state) {
         if (this.state !== null) {

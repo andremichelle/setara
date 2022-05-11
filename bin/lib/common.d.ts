@@ -119,7 +119,7 @@ export declare class NumericStepper implements Stepper {
 export declare class ArrayUtils {
     static fill<T>(n: number, factory: (index: number) => T): T[];
     static shuffle(array: ArrayBufferLike, n: number, random: Random): void;
-    static binarySearch: (array: ArrayBuffer | SharedArrayBuffer, length: number, key: number) => number;
+    static binarySearch: (array: ArrayBufferLike, length: number, key: number) => number;
     private constructor();
 }
 export interface SettingsFormat<DATA> {

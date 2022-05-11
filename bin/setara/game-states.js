@@ -8,9 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { Events, Terminator } from "../lib/common.js";
+import { GameDifficulty } from "./game-context.js";
 import { PlayerState } from "./player.js";
 import { Sound } from "./sounds.js";
-import { GameConstants, GameDifficulty } from "./game-context.js";
 export class GameState {
     constructor(context) {
         this.context = context;
@@ -23,7 +23,6 @@ export class GameWaitForPlayersState extends GameState {
         this.players = [];
         context.forEachPlayer(player => {
             player.setState(PlayerState.WaitingToJoin);
-            player.setAvailablePoints(GameConstants.MAX_SCORE);
             player.setActionName("play");
         });
         this.menu = document.querySelector("div.menu.start");
@@ -47,12 +46,15 @@ export class GameWaitForPlayersState extends GameState {
             event.preventDefault();
             this.context.play(Sound.Click);
             this.context.difficulty.set(GameDifficulty.Normal);
+            this.context.forEachPlayer(player => player.setCardsLeft(this.context.getCardsAvailable()));
         }));
         this.terminator.with(Events.bindEventListener(this.buttonExpert, "click", event => {
             event.preventDefault();
             this.context.play(Sound.Click);
             this.context.difficulty.set(GameDifficulty.Expert);
+            this.context.forEachPlayer(player => player.setCardsLeft(this.context.getCardsAvailable()));
         }));
+        this.context.forEachPlayer(player => player.setCardsLeft(this.context.getCardsAvailable()));
         this.terminator.with(this.context.difficulty.addObserver(difficulty => {
             if (difficulty === GameDifficulty.Normal) {
                 this.buttonNormal.classList.add("active");
@@ -125,42 +127,19 @@ export class GameSearchState extends GameState {
         super(context);
         this.gameRound = gameRound;
         this.players = players;
-        this.points = GameConstants.MAX_SCORE;
-        this.interval = -1;
-        this.decreasePoints = () => {
-            this.context.play(Sound.PointDecay);
-            if (this.points > GameConstants.MIN_SCORE) {
-                this.points -= GameConstants.SCORE_DECAY;
-                this.context.forEachPlayer(player => player.setAvailablePoints(this.points));
-            }
-            else if (-1 !== this.interval) {
-                clearInterval(this.interval);
-                this.interval = -1;
-                this.gameRound.showHint();
-            }
-        };
-        this.interval = setInterval(this.decreasePoints, GameConstants.SCORE_DECAY_INTERVAL);
-        context.forEachPlayer(player => {
-            player.setCardsLeft(gameRound.available());
-            player.setAvailablePoints(this.points);
-        });
+        context.forEachPlayer(player => player.setCardsLeft(gameRound.available()));
     }
     executePlayerAction(player) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (-1 !== this.interval) {
-                clearInterval(this.interval);
-                this.interval = -1;
-            }
-            this.context.switchState(new GameSelectionState(this.context, this.gameRound, this.players, player, this.points));
+            this.context.switchState(new GameSelectionState(this.context, this.gameRound, this.players, player));
             return Promise.resolve();
         });
     }
     terminate() {
-        clearInterval(this.interval);
     }
 }
 export class GameSelectionState extends GameState {
-    constructor(context, gameRound, players, player, possibleScore) {
+    constructor(context, gameRound, players, player) {
         super(context);
         this.context.play(Sound.Select);
         (() => __awaiter(this, void 0, void 0, function* () {
@@ -171,17 +150,17 @@ export class GameSelectionState extends GameState {
                 player.flashCountDown();
             }, () => {
                 gameRound.cancelTurn();
-                player.addScore(-possibleScore);
+                player.addScore(-1);
             }, 5);
             countDown.start();
             const gameOver = yield gameRound.waitForTurnComplete((isSet) => {
                 countDown.cancel();
                 player.setCountDown(0.0);
                 if (isSet) {
-                    player.addScore(possibleScore);
+                    player.addScore(1);
                 }
                 else {
-                    player.addScore(-possibleScore);
+                    player.addScore(-1);
                 }
             });
             player.setState(PlayerState.Playing);
@@ -209,10 +188,10 @@ export class GameOverState extends GameState {
         const winner = context.getWinner();
         winner.setState(PlayerState.Winner);
         this.context.play(Sound.GameOver);
-        this.context.forEachPlayer(player => player.setState(PlayerState.Hiding), [winner]);
         const menu = document.querySelector("div.menu.start-over");
         menu.classList.remove("hidden");
-        this.subscription = Events.bindEventListener(menu.querySelector("button.menu-button.start"), "click", (event) => {
+        const button = menu.querySelector("button.menu-button.restart");
+        this.subscription = Events.bindEventListener(button, "click", (event) => {
             event.preventDefault();
             menu.classList.add("hidden");
             this.startOver();

@@ -1,15 +1,9 @@
-import { Sound, SoundManager } from "./sounds.js";
-import { GameRound } from "./game-round.js";
-import { Random } from "../lib/math.js";
-import { Player } from "./player.js";
 import { ObservableValue } from "../lib/common.js";
+import { Random } from "../lib/math.js";
+import { GameRound } from "./game-round.js";
 import { GameState } from "./game-states.js";
-export declare class GameConstants {
-    static MAX_SCORE: number;
-    static MIN_SCORE: number;
-    static SCORE_DECAY: number;
-    static SCORE_DECAY_INTERVAL: number;
-}
+import { Player } from "./player.js";
+import { Sound, SoundManager } from "./sounds.js";
 export declare enum GameDifficulty {
     Normal = 0,
     Expert = 1
@@ -29,5 +23,6 @@ export declare class GameContext {
     requestPlayerAction(player: Player): Promise<void>;
     play(sound: Sound): void;
     getWinner(): Player;
+    getCardsAvailable(): number;
     switchState(state: GameState): void;
 }

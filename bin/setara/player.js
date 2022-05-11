@@ -33,7 +33,6 @@ export class Player {
         this.scoreLabel = element.querySelector("div.display.score span");
         this.countdownBar = element.querySelector("div.display.countdown div span");
         this.cardsLeftLabel = element.querySelector("[data-info='cards-left']");
-        this.cardsAvailablePoints = element.querySelector("[data-info='available-points']");
         this.crown = this.element.querySelector("div.crown");
         this.setCountDown(0.0);
         this.setCardsLeft(0);
@@ -76,17 +75,6 @@ export class Player {
     setCardsLeft(count) {
         this.cardsLeftLabel.textContent = `${count}`;
     }
-    setAvailablePoints(points) {
-        this.cardsAvailablePoints.textContent = `${points}`;
-        this.element.classList.add("decay-points");
-        const listener = (event) => {
-            if (event.animationName === "point-decay-flash") {
-                this.element.removeEventListener("animationend", listener);
-                this.element.classList.remove("decay-points");
-            }
-        };
-        this.element.addEventListener("animationend", listener);
-    }
     setActionName(text) {
         this.button.textContent = text;
     }
@@ -119,12 +107,12 @@ export class Player {
             const animateScore = () => {
                 if (exe) {
                     this.gameContext.play(Sound.Scoring);
-                    this.displayScore += Math.sign(this.score - this.displayScore) * 20;
+                    this.displayScore += Math.sign(this.score - this.displayScore);
                     if (this.displayScore < 0)
                         this.scoreLabel.classList.add("negative");
                     else
                         this.scoreLabel.classList.remove("negative");
-                    this.scoreLabel.textContent = `${Math.abs(this.displayScore).toString(10).padStart(5, "0")}`;
+                    this.scoreLabel.textContent = `${Math.abs(this.displayScore).toString(10)}`;
                     if (this.displayScore !== this.score) {
                         requestAnimationFrame(animateScore);
                     }
