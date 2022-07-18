@@ -311,8 +311,7 @@ export class GameRound {
                 yield this.deselectAll();
             }
         });
-        this.rootElement.addEventListener("mousedown", click);
-        this.rootElement.addEventListener("touchstart", click);
+        this.rootElement.addEventListener("pointerdown", click);
         let timeoutId = -1;
         let keyListener = (event) => __awaiter(this, void 0, void 0, function* () {
             if (!this.acceptUserInput)
@@ -346,8 +345,7 @@ export class GameRound {
         return {
             terminate: () => {
                 window.removeEventListener("keydown", keyListener);
-                this.rootElement.removeEventListener("mousedown", click);
-                this.rootElement.removeEventListener("touchstart", click);
+                this.rootElement.removeEventListener("pointerdown", click);
             }
         };
     }

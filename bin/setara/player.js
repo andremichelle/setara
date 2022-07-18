@@ -100,6 +100,7 @@ export class Player {
     }
     reset() {
         this.score = 0;
+        this.updateScoreLabel();
     }
     updateScoreLabel() {
         if (this.displayScore !== this.score) {

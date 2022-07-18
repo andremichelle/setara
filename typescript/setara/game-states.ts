@@ -173,7 +173,7 @@ export class GameSelectionState extends GameState {
                 () => {
                     gameRound.cancelTurn()
                     player.addScore(-1)
-                }, players.length < 1 ? 5 : 10)
+                }, players.length < 1 ? 5 : 30)
             countDown.start()
 
             const gameOver = await gameRound.waitForTurnComplete((isSet: boolean) => {
