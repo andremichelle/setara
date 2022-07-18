@@ -103,6 +103,7 @@ export class Player {
 
     reset() {
         this.score = 0
+        this.updateScoreLabel()
     }
 
     private updateScoreLabel() {

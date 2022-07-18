@@ -86,12 +86,15 @@ export class SVGCardFactory {
             case 3:
                 return (index, numElements) => {
                     const element = createElement("polygon");
-                    const radius = this.size * 0.6;
+                    const n = 12;
+                    const r0 = this.size * 0.75;
+                    const r1 = this.size * 0.5;
                     const points = [];
-                    for (let i = 0; i < 6; i++) {
-                        const a = i / 6 * (Math.PI * 2.0);
-                        const px = Math.sin(a) * radius + this.getCenterX();
-                        const py = radius * 0.2 - Math.cos(a) * radius + this.getCenterY(index, numElements);
+                    for (let i = 0; i < n; i++) {
+                        const r = (i & 1) ? r0 : r1;
+                        const a = (i + 0.5) / n * (Math.PI * 2.0);
+                        const px = Math.sin(a) * r + this.getCenterX();
+                        const py = Math.cos(a) * r + this.getCenterY(index, numElements);
                         points[i] = `${px.toFixed(1)} ${py.toFixed(1)}`;
                     }
                     element.setAttribute("points", points.join(" "));
@@ -187,5 +190,5 @@ export class SVGCardFactory {
         }
     }
 }
-SVGCardFactory.COLORS = ["#7958AC", "#F789AE", "#49E3DA", "#2f2244"];
+SVGCardFactory.COLORS = ["#7958AC", "#F789AE", "#49E3DA", "#362b56"];
 //# sourceMappingURL=card-design.js.map

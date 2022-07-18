@@ -30,7 +30,7 @@ export class GameWaitForPlayersState extends GameState {
 
         context.forEachPlayer(player => {
             player.setState(PlayerState.WaitingToJoin)
-            player.setActionName("play")
+            player.setActionName("join")
         })
 
         this.menu = document.querySelector("div.menu.start")
@@ -42,23 +42,23 @@ export class GameWaitForPlayersState extends GameState {
         this.buttonStart = this.menu.querySelector("button.menu-button.start")
         this.buttonStart.classList.add("disabled")
 
-        this.terminator.with(Events.bindEventListener(this.buttonManual, "click", event => {
+        this.terminator.with(Events.bindEventListener(this.buttonManual, "pointerdown", event => {
             event.preventDefault()
             this.menu.classList.add("hidden")
             this.manual.classList.remove("hidden")
-            this.manual.querySelector("button").addEventListener("click", () => {
+            this.manual.querySelector("button").addEventListener("pointerdown", () => {
                 this.menu.classList.remove("hidden")
                 this.manual.classList.add("hidden")
             }, {once: true})
         }))
 
-        this.terminator.with(Events.bindEventListener(this.buttonNormal, "click", event => {
+        this.terminator.with(Events.bindEventListener(this.buttonNormal, "pointerdown", event => {
             event.preventDefault()
             this.context.play(Sound.Click)
             this.context.difficulty.set(GameDifficulty.Normal)
             this.context.forEachPlayer(player => player.setCardsLeft(this.context.getCardsAvailable()))
         }))
-        this.terminator.with(Events.bindEventListener(this.buttonExpert, "click", event => {
+        this.terminator.with(Events.bindEventListener(this.buttonExpert, "pointerdown", event => {
             event.preventDefault()
             this.context.play(Sound.Click)
             this.context.difficulty.set(GameDifficulty.Expert)
@@ -75,7 +75,7 @@ export class GameWaitForPlayersState extends GameState {
             }
         }, true))
 
-        this.terminator.with(Events.bindEventListener(this.buttonStart, "click", event => {
+        this.terminator.with(Events.bindEventListener(this.buttonStart, "pointerdown", event => {
             event.preventDefault()
             this.context.play(Sound.Click)
             if (this.players.length > 0) {
@@ -173,7 +173,7 @@ export class GameSelectionState extends GameState {
                 () => {
                     gameRound.cancelTurn()
                     player.addScore(-1)
-                }, 5)
+                }, players.length < 1 ? 5 : 10)
             countDown.start()
 
             const gameOver = await gameRound.waitForTurnComplete((isSet: boolean) => {
@@ -217,7 +217,7 @@ export class GameOverState extends GameState {
         const menu = document.querySelector("div.menu.start-over")
         menu.classList.remove("hidden")
         const button = menu.querySelector("button.menu-button.restart")
-        this.subscription = Events.bindEventListener(button, "click", (event: Event) => {
+        this.subscription = Events.bindEventListener(button, "pointerdown", (event: Event) => {
             event.preventDefault()
             menu.classList.add("hidden")
             this.startOver()

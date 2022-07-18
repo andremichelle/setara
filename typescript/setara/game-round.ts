@@ -317,8 +317,7 @@ export class GameRound {
                 await this.deselectAll()
             }
         }
-        this.rootElement.addEventListener("mousedown", click)
-        this.rootElement.addEventListener("touchstart", click)
+        this.rootElement.addEventListener("pointerdown", click)
 
         let timeoutId: number = -1
         let keyListener = async (event: KeyboardEvent) => {
@@ -349,8 +348,7 @@ export class GameRound {
         return {
             terminate: () => {
                 window.removeEventListener("keydown", keyListener)
-                this.rootElement.removeEventListener("mousedown", click)
-                this.rootElement.removeEventListener("touchstart", click)
+                this.rootElement.removeEventListener("pointerdown", click)
             }
         }
     }

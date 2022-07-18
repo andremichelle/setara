@@ -1,5 +1,5 @@
-import { Card } from "./card.js";
 import { Terminable } from "../lib/common";
+import { Card } from "./card.js";
 export declare class SVGCardFactory implements Terminable {
     readonly numVariations: number;
     readonly padding: number;
