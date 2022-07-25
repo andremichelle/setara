@@ -136,7 +136,6 @@ export class GameStartState extends GameState {
 }
 
 export class GameSearchState extends GameState {
-
     constructor(context: GameContext,
                 private readonly gameRound: GameRound,
                 private readonly players: Player[]) {
@@ -173,7 +172,7 @@ export class GameSelectionState extends GameState {
                 () => {
                     gameRound.cancelTurn()
                     player.addScore(-1)
-                }, players.length < 1 ? 5 : 30)
+                }, players.length > 1 ? 5 : 30)
             countDown.start()
 
             const gameOver = await gameRound.waitForTurnComplete((isSet: boolean) => {
