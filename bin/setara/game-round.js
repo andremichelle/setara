@@ -57,9 +57,7 @@ export class GameRound {
     }
     waitForTurnComplete(onSelectionComplete) {
         return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve) => {
-                this.turn = Options.valueOf(new Turn(onSelectionComplete, resolve));
-            });
+            return new Promise((resolve) => this.turn = Options.valueOf(new Turn(onSelectionComplete, resolve)));
         });
     }
     cancelTurn() {
@@ -181,6 +179,7 @@ export class GameRound {
     }
     removeSet(cards) {
         return __awaiter(this, void 0, void 0, function* () {
+            yield Waiting.forFrames(60);
             const waiting = [];
             const elements = cards.map(card => this.findElement(card));
             const placeholders = [];
