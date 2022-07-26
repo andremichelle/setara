@@ -61,9 +61,7 @@ export class GameRound {
     }
 
     async waitForTurnComplete(onSelectionComplete: (isSet: boolean) => void): Promise<boolean> {
-        return new Promise((resolve) => {
-            this.turn = Options.valueOf(new Turn(onSelectionComplete, resolve))
-        })
+        return new Promise((resolve) => this.turn = Options.valueOf(new Turn(onSelectionComplete, resolve)))
     }
 
     async cancelTurn(): Promise<void> {
@@ -181,15 +179,14 @@ export class GameRound {
     }
 
     private async removeSet(cards: Card[]): Promise<void> {
+        await Waiting.forFrames(60)
         const waiting = []
         const elements: HTMLElement[] = cards.map(card => this.findElement(card))
         const placeholders: HTMLElement[] = []
         let zIndex = 0
         for (const element of elements) {
             this.map.delete(element)
-
             element.classList.remove("selected")
-
             const elementRect = element.getBoundingClientRect()
             const containerRect = this.cardsElement.getBoundingClientRect()
             if (window.matchMedia("(orientation: portrait)").matches) {
