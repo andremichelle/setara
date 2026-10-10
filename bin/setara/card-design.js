@@ -150,7 +150,8 @@ export class SVGCardFactory {
             line.x2.baseVal.value = px + 3;
             line.y2.baseVal.value = py + 3;
             line.setAttribute("stroke", color);
-            line.setAttribute("stroke-width", "1");
+            line.setAttribute("stroke-width", "1.25");
+            line.setAttribute("stroke-linecap", "square");
             target.appendChild(line);
         }, "stripes", 3);
         this.createPattern(defsElement, (target, px, py, color) => {
