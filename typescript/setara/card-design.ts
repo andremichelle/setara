@@ -6,7 +6,7 @@ type ElementFactory = (index: number, numElements: number) => SVGElement
 type ShadingFactory = (element: SVGElement, colorIndex: number) => void
 
 export class SVGCardFactory implements Terminable {
-    static COLORS = ["#7958AC", "#F789AE", "#49E3DA", "#362b56"]
+    static COLORS = ["#7448B8", "#F789AE", "#3DD37A", "#362b56"]
 
     private readonly width: number = 66.0
     private readonly height: number = 100.0

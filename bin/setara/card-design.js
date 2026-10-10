@@ -190,5 +190,5 @@ export class SVGCardFactory {
         }
     }
 }
-SVGCardFactory.COLORS = ["#7958AC", "#F789AE", "#49E3DA", "#362b56"];
+SVGCardFactory.COLORS = ["#7448B8", "#F789AE", "#3DD37A", "#362b56"];
 //# sourceMappingURL=card-design.js.map
